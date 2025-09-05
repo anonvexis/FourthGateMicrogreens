@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,320 +7,749 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* Custom styles to elevate the design */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #F8F7F3;
-    color: #2D4026;
+    background-color: #F8F7F3; /* Soft, organic off-white */
+    color: #2D4026; /* Deep forest green for text */
     overflow-x: hidden;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='4' fill='%233B7235' stroke='%23C8D7C8' stroke-width='2'/%3E%3C/svg%3E") 8 8, auto;
+    /* A more subtle and refined custom cursor */
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%233B7235' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'/%3E%3Ccircle fill='%23F8F7F3' cx='12' cy='12' r='3'/%3E%3C/svg%3E") 12 12, auto;
 }
 
+/* Typography and Animations */
+.hero-headline {
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(120deg, #d1e8d1, #ffffff, #c8d7c8, #b3dcb3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 300% auto;
+    animation: text-gradient 20s linear infinite;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    background: linear-gradient(120deg, #3B7235, #5a8a5a, #4a744a, #3B7235);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: text-gradient 15s linear infinite;
+}
+
+@keyframes text-gradient {
+    to { background-position: -200% center; }
+}
+
+/* Modal Enhancements */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(12px);
+    inset: 0;
+    background-color: rgba(20, 30, 20, 0.5);
+    backdrop-filter: blur(16px);
     z-index: 100;
-    display: none;
+    display: none; /* Initially hidden */
     justify-content: center;
     align-items: center;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.4s ease-out;
 }
 
 .modal-content {
-    background-color: #F8F7F3;
+    background-color: #FDFCF8;
     padding: 2.5rem;
     border-radius: 2rem;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
     position: relative;
-    max-width: 550px;
+    max-width: 600px;
     width: 90%;
-    animation: slideUp 0.4s ease-out;
+    animation: slideUp 0.5s ease-out;
     border: 1px solid rgba(0,0,0,0.05);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal-close {
     position: absolute;
     top: 1rem;
     right: 1.5rem;
-    font-size: 2rem;
-    font-weight: 300;
+    font-size: 2.5rem;
+    font-weight: 200;
     cursor: pointer;
     color: #2D4026;
+    transition: transform 0.2s, color 0.2s;
+}
+.modal-close:hover {
+    transform: rotate(90deg);
+    color: #3B7235;
 }
 
-.message-box {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 2.5rem;
-    border-radius: 1.5rem;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    z-index: 101;
-    display: none;
-    text-align: center;
-    animation: slideIn 0.3s ease-out;
-}
+/* Keyframe animations for modal and alerts */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
+/* Button Styles */
 .btn-primary {
     background-color: #3B7235;
     color: #F8F7F3;
     font-weight: 600;
-    padding: 0.75rem 2rem;
+    padding: 0.85rem 2.25rem;
     border-radius: 9999px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(59, 114, 53, 0.3);
+    box-shadow: 0 5px 20px rgba(59, 114, 53, 0.3);
+    border: 1px solid transparent;
 }
-
 .btn-primary:hover {
     background-color: #2D5829;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 114, 53, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(59, 114, 53, 0.4);
+}
+.btn-secondary {
+    background-color: #fff;
+    color: #2D4026;
+    font-weight: 600;
+    padding: 0.85rem 2.25rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border: 1px solid #e2e8d9;
+}
+.btn-secondary:hover {
+    background-color: #f2f9f2;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
-.card-selection {
+
+/* Card Selection Styles */
+.selectable-card {
     background-color: #fff;
-    border: 2px solid transparent;
+    border: 2px solid #e2e8d9;
     border-radius: 1.5rem;
     padding: 1.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
 }
-.card-selection:hover {
-    border-color: #3B7235;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+.selectable-card:hover {
+    border-color: #a3b9a3;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
 }
-.card-selection.selected {
+.selectable-card.selected {
     border-color: #3B7235;
     background-color: #F2F9F2;
-    box-shadow: 0 6px 15px rgba(59, 114, 53, 0.2);
+    box-shadow: 0 8px 20px rgba(59, 114, 53, 0.2);
+    transform: translateY(-2px);
+}
+.selectable-card.selected::after {
+    content: '✔';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: #3B7235;
+    font-size: 1.25rem;
+    font-weight: bold;
 }
 
+
+/* Floating animation for hero button */
+.floating { animation: floating 4s ease-in-out infinite; }
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Scroll-triggered Animations */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Custom Box Builder Styles */
+.crop-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 0.75rem;
+}
 .qty-btn {
     background-color: #E2E8D9;
     color: #2D4026;
     font-weight: 500;
     border-radius: 9999px;
-    width: 2.5rem;
-    height: 2.5rem;
-    transition: background-color 0.2s ease;
+    width: 2.25rem;
+    height: 2.25rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 .qty-btn:hover {
     background-color: #D2DBC9;
+    transform: scale(1.1);
 }
-
-.hero-headline {
-    font-family: 'Playfair Display', serif;
-    background: linear-gradient(120deg, #A3D9A3, #F5F5DC, #C8D7C8, #A3D9A3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% auto;
-    animation: text-gradient 15s linear infinite;
-    font-weight: 500;
-    line-height: 1.1;
-}
-
-@keyframes text-gradient {
-    0% { background-position: 0% center; }
-    100% { background-position: -200% center; }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-@keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-@keyframes slideIn {
-    from { transform: translate(-50%, -40%); opacity: 0; }
-    to { transform: translate(-50%, -50%); opacity: 1; }
-}
-
-.section-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 600;
-    background: linear-gradient(120deg, #3B7235, #A3A358, #E2C36D, #3B7235);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% auto;
-    animation: text-gradient 15s linear infinite;
-}
-
-.floating {
-    animation: floating 3s ease-in-out infinite;
-}
-
-@keyframes floating {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-
-.product-card {
-    background-color: #fff;
-    border-radius: 1.5rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+.add-btn {
+    background: #3B7235;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.5rem;
+    line-height: 1;
     cursor: pointer;
-    overflow: hidden;
-    position: relative;
+    transition: all 0.2s ease;
 }
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
-}
-
-.product-card.selected {
-    border: 3px solid #3B7235;
-    box-shadow: 0 12px 25px rgba(59, 114, 53, 0.3);
-}
-
-.product-image {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-top-left-radius: 1.5rem;
-    border-top-right-radius: 1.5rem;
+.add-btn:hover {
+    background: #2D5829;
+    transform: rotate(90deg);
 }
 </style>
 </head>
 <body class="text-stone-900">
 
-<!-- Fixed Video Background Container -->
+<!-- Fixed Video Background with Overlay -->
 <div class="fixed inset-0 z-0 overflow-hidden">
-    <iframe id="video-background-player"
-        class="absolute top-1/2 left-1/2 min-w-full min-h-full w-[1600px] h-[900px] transform -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-0 transition-opacity duration-1000"
-        src="https://www.youtube.com/embed/t2yjLQ76b_I?loop=1&playlist=t2yjLQ76b_I&modestbranding=1&controls=0&showinfo=0&rel=0&enablejsapi=1"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-    ></iframe>
-    <div class="absolute inset-0 bg-black/40"></div>
+    <div id="video-container" class="absolute inset-0 w-full h-full">
+        <!-- This div will be replaced by the YouTube player -->
+    </div>
+    <div class="absolute inset-0 bg-black/50"></div>
 </div>
 
 <!-- Navigation -->
 <header class="absolute w-full z-50 px-6 py-5 flex justify-between items-center text-white">
-  <a href="#" class="text-3xl font-bold tracking-tighter font-['Playfair_Display']">Fourth Gate Microgreens</a>
+    <a href="#" class="text-3xl font-bold tracking-tighter" style="font-family: 'Playfair Display', serif;">Fourth Gate</a>
+    <nav class="hidden md:flex space-x-8 font-medium items-center">
+        <a href="#how-it-works" class="hover:text-amber-100 transition">How It Works</a>
+        <a href="#about-us" class="hover:text-amber-100 transition">Our Story</a>
+        <a href="#subscription" class="hover:text-amber-100 transition">Plans</a>
+        <button id="nav-order-btn" class="btn-secondary !text-sm !py-2 !px-5">Order Now</button>
+    </nav>
+    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-white/20 text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+    </button>
 </header>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed inset-0 bg-[#2D4026] z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-white text-2xl font-medium">
+        <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
+        <a href="#about-us" class="mobile-nav-link">Our Story</a>
+        <a href="#subscription" class="mobile-nav-link">Plans</a>
+        <button class="btn-primary mt-8 mobile-nav-link">Order Now</button>
+    </div>
+</div>
+
 
 <!-- Hero Section -->
-<section class="relative h-screen flex items-center justify-center text-center text-white">
-  <div class="relative z-20 max-w-4xl px-6">
-    <h1 class="text-6xl md:text-8xl hero-headline">
-      Open the Gate to Health.
-    </h1>
-    <p class="mt-6 text-xl md:text-2xl font-light text-gray-200">
-      Nutrient-dense, farm-fresh microgreens delivered right to your door.
-    </p>
-    <div class="mt-10 flex flex-col md:flex-row justify-center gap-4">
-      <a href="#" id="choose-box-btn" class="btn-primary">Choose Your Box</a>
-      <button id="view-plans-btn-hero" class="bg-white text-[#2D4026] font-semibold py-3 px-10 rounded-full shadow-xl hover:bg-gray-100 transition transform hover:scale-105">
-        View Our Plans
-      </button>
+<section class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
+    <div class="relative z-20 max-w-4xl px-6">
+        <h1 class="text-6xl md:text-8xl hero-headline">
+            Open the Gate to Health.
+        </h1>
+        <p class="mt-6 text-xl md:text-2xl font-light text-gray-200 max-w-2xl mx-auto">
+            Nutrient-dense, farm-fresh microgreens delivered from our indoor farm right to your door.
+        </p>
+        <div class="mt-12 flex justify-center">
+            <button id="hero-order-btn" class="btn-primary floating">
+                Choose Your Box
+            </button>
+        </div>
     </div>
-  </div>
 </section>
 
-<!-- Condensed How It Works -->
-<section id="how-it-works" class="py-12 bg-[#E8F0E4] relative z-10">
-  <div class="max-w-5xl mx-auto px-6 text-center">
-    <h2 class="text-3xl font-bold font-['Playfair_Display'] mb-8">So Fresh, So Simple.</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div>
-        <div class="text-green-700 text-3xl font-bold">1</div>
-        <p class="mt-2">Select Your Plan</p>
-      </div>
-      <div>
-        <div class="text-green-700 text-3xl font-bold">2</div>
-        <p class="mt-2">We Deliver Fresh</p>
-      </div>
-      <div>
-        <div class="text-green-700 text-3xl font-bold">3</div>
-        <p class="mt-2">Enjoy Every Bite</p>
-      </div>
-    </div>
-  </div>
-</section>
+<main class="relative z-10 bg-[#F8F7F3]">
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-24 bg-[#E8F0E4]">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl section-title reveal">So Fresh, So Simple.</h2>
+            <p class="mt-4 text-lg text-gray-800 reveal">Getting started with fresh microgreens is easy.</p>
+            <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Step 1 -->
+                <div class="p-10 rounded-3xl transition transform hover:-translate-y-2 bg-white shadow-xl reveal">
+                    <div class="w-20 h-20 mx-auto flex items-center justify-center bg-green-100 rounded-full mb-6">
+                        <svg class="w-10 h-10 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold">1. Select Your Plan</h3>
+                    <p class="mt-3 text-stone-700">Choose from curated boxes or build your own. Delivered weekly, bi-weekly, or monthly.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="p-10 rounded-3xl transition transform hover:-translate-y-2 bg-white shadow-xl reveal" style="transition-delay: 150ms;">
+                    <div class="w-20 h-20 mx-auto flex items-center justify-center bg-green-100 rounded-full mb-6">
+                         <svg class="w-10 h-10 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold">2. We Harvest & Deliver</h3>
+                    <p class="mt-3 text-stone-700">We harvest your microgreens at peak freshness and deliver them straight to your doorstep.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="p-10 rounded-3xl transition transform hover:-translate-y-2 bg-white shadow-xl reveal" style="transition-delay: 300ms;">
+                    <div class="w-20 h-20 mx-auto flex items-center justify-center bg-green-100 rounded-full mb-6">
+                         <svg class="w-10 h-10 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold">3. Enjoy Peak Nutrition</h3>
+                    <p class="mt-3 text-stone-700">Elevate your meals with unparalleled flavor, vibrant color, and a powerful nutrient boost.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- Subscription CTA -->
-<section id="subscription" class="py-16 bg-[#3B7235] text-white text-center">
-  <div class="max-w-4xl mx-auto px-6">
-    <h2 class="text-4xl font-bold font-['Playfair_Display']">Ready to Start?</h2>
-    <p class="mt-4 text-lg font-light text-green-100">Choose your subscription plan and experience greens like never before.</p>
-    <div class="mt-6 flex justify-center">
-      <button id="view-plans-btn" class="bg-white text-[#2D4026] font-semibold py-3 px-10 rounded-full shadow-xl hover:bg-gray-100 transition transform hover:scale-105">
-        View Our Plans
-      </button>
-    </div>
-  </div>
-</section>
+    <!-- About Us Section -->
+    <section id="about-us" class="py-24 bg-white text-[#2D4026]">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl section-title text-center reveal">Grown With Passion, For You.</h2>
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 reveal">
+                    <p class="text-lg leading-relaxed">
+                        Fourth Gate Microgreens was founded on a simple belief: everyone deserves access to the freshest, most nutrient-dense food possible. Our journey began with a small indoor farm and a passion for sustainable agriculture.
+                    </p>
+                    <p class="text-lg leading-relaxed">
+                        We are committed to a healthier planet, using only organic, earth-friendly methods to bring the vibrant power of nature straight to your table.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 reveal" style="transition-delay: 150ms;">
+                    <img src="https://images.pexels.com/photos/5958017/pexels-photo-5958017.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Microgreens being harvested" class="rounded-3xl shadow-xl w-full h-full object-cover aspect-[4/5]">
+                    <img src="https://images.pexels.com/photos/7248386/pexels-photo-7248386.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Trays of microgreens growing" class="rounded-3xl shadow-xl w-full h-full object-cover aspect-[4/5] mt-8">
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- Footer with About Us blurb -->
-<footer class="bg-[#2D4026] text-gray-300 py-10 text-center px-6">
-  <p class="mb-4 max-w-2xl mx-auto">
-    Fourth Gate Microgreens was founded on the belief that everyone deserves access to nutrient-dense, sustainable food. We grow and deliver the freshest microgreens directly to your door with care for you and the planet.
-  </p>
-  <p>&copy; 2024 Fourth Gate Microgreens. All rights reserved.</p>
+    <!-- Subscription CTA -->
+    <section id="subscription" class="py-20 bg-[#3B7235] text-white text-center">
+        <div class="max-w-4xl mx-auto px-6 reveal">
+            <h2 class="text-4xl font-bold" style="font-family: 'Playfair Display', serif;">Ready to Start Your Journey?</h2>
+            <p class="mt-4 text-lg font-light text-green-100">Choose your subscription plan and experience greens like never before.</p>
+            <div class="mt-8 flex justify-center">
+                <button id="cta-order-btn" class="btn-secondary">
+                    View Our Plans
+                </button>
+            </div>
+        </div>
+    </section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#2D4026] text-gray-400 py-10 text-center relative z-10">
+    <p>&copy; 2024 Fourth Gate Microgreens. All rights reserved.</p>
 </footer>
 
-<!-- Subscription Modal + Scripts (unchanged from your version) -->
+<!-- Subscription Modal -->
+<div id="subscription-modal" class="modal-overlay">
+    <div class="modal-content text-[#2D4026]">
+        <span class="modal-close">&times;</span>
+
+        <!-- Step 1: Choose Custom or Preset -->
+        <div id="step-1" class="step-content">
+            <h3 class="text-3xl font-bold text-center mb-8" style="font-family: 'Playfair Display', serif;">Choose Your Box</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="selectable-card text-center" id="select-preset">
+                    <img src="https://images.pexels.com/photos/7659424/pexels-photo-7659424.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Preset Blends" class="w-full h-32 object-cover rounded-xl mb-4">
+                    <h4 class="font-bold text-xl mb-1">Choose a Preset</h4>
+                    <p class="text-sm text-gray-500">Curated for flavor and health.</p>
+                </div>
+                <div class="selectable-card text-center" id="select-custom">
+                    <img src="https://images.pexels.com/photos/7248387/pexels-photo-7248387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Build Your Own" class="w-full h-32 object-cover rounded-xl mb-4">
+                    <h4 class="font-bold text-xl mb-1">Build Your Own</h4>
+                    <p class="text-sm text-gray-500">Perfectly tailored to you.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Choose Preset or Build Custom -->
+        <div id="step-2" class="step-content hidden">
+            <!-- This content will be dynamically populated -->
+        </div>
+
+        <!-- Step 3: Choose Frequency & Details -->
+        <div id="step-3" class="step-content hidden">
+             <h3 class="text-3xl font-bold text-center mb-8" style="font-family: 'Playfair Display', serif;">Final Details</h3>
+            <div class="bg-white p-6 rounded-2xl shadow-inner mb-6">
+                <h4 class="font-semibold text-lg mb-4">Your Order:</h4>
+                <div id="order-summary" class="text-gray-700 space-y-2"></div>
+                <hr class="my-4">
+                <div class="text-xl font-bold flex justify-between">
+                    <span>Total:</span>
+                    <span id="summary-total-price">$0.00</span>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h4 class="font-semibold text-lg mb-4 text-center">Delivery Frequency</h4>
+                <div class="grid grid-cols-3 gap-3" id="frequency-options">
+                    <div class="selectable-card text-center !p-3" data-frequency="Weekly" data-price-modifier="1"><h5 class="font-bold">Weekly</h5><p class="text-xs text-gray-500">Best Value</p></div>
+                    <div class="selectable-card text-center !p-3" data-frequency="Bi-weekly" data-price-modifier="1.05"><h5 class="font-bold">Bi-weekly</h5><p class="text-xs text-gray-500">+5%</p></div>
+                    <div class="selectable-card text-center !p-3" data-frequency="Monthly" data-price-modifier="1.1"><h5 class="font-bold">Monthly</h5><p class="text-xs text-gray-500">+10%</p></div>
+                </div>
+            </div>
+
+            <form id="details-form">
+                <input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B7235]" required>
+                <input type="email" placeholder="Email Address" class="w-full p-3 mb-4 rounded-lg border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B7235]" required>
+                <button type="submit" class="w-full btn-primary">Complete Order</button>
+            </form>
+            <button class="mt-6 text-gray-500 hover:text-gray-700 transition w-full text-center" onclick="prevStep()">← Back</button>
+        </div>
+
+        <!-- Message/Alert Box -->
+         <div id="message-box" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-20 flex items-center justify-center p-8 rounded-2xl hidden">
+            <div class="text-center">
+                <p id="message-text" class="text-lg font-semibold text-stone-800"></p>
+                <button class="mt-4 btn-secondary" id="message-ok-btn">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-// --- Video Looping Logic ---
-var player;
-var checkInterval = null; // Initialize checkInterval to null
+// --- App State & Constants ---
+const state = {
+    currentStep: 1,
+    orderType: null, // 'preset' or 'custom'
+    selectedPreset: null,
+    customBox: {}, // { cropName: quantity }
+    deliveryFrequency: null,
+    totalPrice: 0,
+};
 
-// This function is automatically called by the YouTube API
+const CROP_PRICE = 6.50;
+const PRESETS = [
+    { id: 'zesty', name: 'The Zesty Boost', contents: 'Broccoli & Radish', price: 18.00, img: 'https://images.pexels.com/photos/8953578/pexels-photo-8953578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' },
+    { id: 'wellness', name: 'The Wellness Blend', contents: 'Kale & Broccoli', price: 18.00, img: 'https://images.pexels.com/photos/2551794/pexels-photo-2551794.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' },
+    { id: 'garden', name: 'The Garden Party', contents: 'Sunflower & Pea', price: 18.00, img: 'https://images.pexels.com/photos/287353/pexels-photo-287353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }
+];
+const CROPS = ['Broccoli', 'Kale', 'Radish', 'Sunflower', 'Pea', 'Arugula'];
+
+// --- DOM Elements ---
+const modal = document.getElementById('subscription-modal');
+const messageBox = document.getElementById('message-box');
+const allOrderButtons = document.querySelectorAll('#nav-order-btn, #hero-order-btn, #cta-order-btn, .mobile-nav-link:not([href])');
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+// --- Event Listeners ---
+function setupEventListeners() {
+    allOrderButtons.forEach(btn => btn.addEventListener('click', openModal));
+    modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    messageBox.querySelector('#message-ok-btn').addEventListener('click', closeMessageBox);
+    document.getElementById('details-form').addEventListener('submit', handleFormSubmit);
+    
+    // Step 1 listeners
+    document.getElementById('select-preset').addEventListener('click', () => handleOrderTypeSelect('preset'));
+    document.getElementById('select-custom').addEventListener('click', () => handleOrderTypeSelect('custom'));
+
+    // Mobile Menu
+    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('-translate-x-full'));
+    mobileNavLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full')));
+}
+
+// --- Modal & Step Logic ---
+function openModal() {
+    resetState();
+    renderStep(1);
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function renderStep(step) {
+    state.currentStep = step;
+    const steps = modal.querySelectorAll('.step-content');
+    steps.forEach(s => s.classList.add('hidden'));
+    
+    const targetStepEl = document.getElementById('step-' + step);
+    if(targetStepEl) {
+        // Dynamic content for step 2
+        if (step === 2) {
+            const contentEl = document.getElementById('step-2');
+            if (state.orderType === 'preset') {
+                contentEl.innerHTML = generatePresetSelectionHTML();
+                // Add event listeners for newly created preset cards
+                contentEl.querySelectorAll('.selectable-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        handlePresetSelect(card.dataset.presetId);
+                        // Visually select the card
+                        contentEl.querySelectorAll('.selectable-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                    });
+                });
+            } else { // 'custom'
+                contentEl.innerHTML = generateCustomBuilderHTML();
+                // Add event listeners for custom builder
+                contentEl.querySelectorAll('.add-btn').forEach(btn => {
+                   btn.addEventListener('click', () => handleCustomCropChange(btn.dataset.crop, 'add'));
+                });
+            }
+        }
+        targetStepEl.classList.remove('hidden');
+    }
+}
+
+function prevStep() {
+    if (state.currentStep > 1) {
+        renderStep(state.currentStep - 1);
+    }
+}
+
+// --- Order Logic ---
+function handleOrderTypeSelect(type) {
+    state.orderType = type;
+    renderStep(2);
+}
+
+function handlePresetSelect(presetId) {
+    state.selectedPreset = PRESETS.find(p => p.id === presetId);
+    renderStep(3);
+    updateSummaryAndPrice();
+}
+
+function handleCustomCropChange(cropName, action) {
+    if (!state.customBox[cropName]) {
+        state.customBox[cropName] = 0;
+    }
+
+    if (action === 'add') {
+        state.customBox[cropName]++;
+    } else if (action === 'remove' && state.customBox[cropName] > 0) {
+        state.customBox[cropName]--;
+    }
+
+    // Remove crop from object if quantity is 0
+    if (state.customBox[cropName] === 0) {
+        delete state.customBox[cropName];
+    }
+    
+    updateCustomBuilderUI();
+    updateSummaryAndPrice();
+}
+
+function proceedFromCustom() {
+    if (Object.keys(state.customBox).length === 0) {
+        showMessageBox('Please add at least one crop to your box.');
+        return;
+    }
+    renderStep(3);
+    updateSummaryAndPrice();
+}
+
+function handleFrequencySelect(frequency, priceModifier, element) {
+    state.deliveryFrequency = frequency;
+    document.querySelectorAll('#frequency-options .selectable-card').forEach(c => c.classList.remove('selected'));
+    element.classList.add('selected');
+    updateSummaryAndPrice();
+}
+
+// --- UI & HTML Generation ---
+function updateCustomBuilderUI() {
+    const customBoxEl = document.getElementById('custom-box-items');
+    customBoxEl.innerHTML = ''; // Clear current items
+    
+    for (const [crop, qty] of Object.entries(state.customBox)) {
+        customBoxEl.innerHTML += `
+            <div class="crop-option">
+                <span>${crop}</span>
+                <div class="flex items-center gap-3">
+                    <button class="qty-btn" onclick="handleCustomCropChange('${crop}', 'remove')">-</button>
+                    <span class="font-bold w-4 text-center">${qty}</span>
+                    <button class="qty-btn" onclick="handleCustomCropChange('${crop}', 'add')">+</button>
+                </div>
+            </div>`;
+    }
+}
+
+function generatePresetSelectionHTML() {
+    return `
+        <h3 class="text-3xl font-bold text-center mb-8" style="font-family: 'Playfair Display', serif;">Select a Preset</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${PRESETS.map(p => `
+                <div class="selectable-card" data-preset-id="${p.id}">
+                    <img src="${p.img}" alt="${p.name}" class="product-image w-full h-24 object-cover rounded-lg mb-3">
+                    <h4 class="font-bold text-lg">${p.name}</h4>
+                    <p class="text-sm mt-1 text-gray-500">${p.contents}</p>
+                    <p class="mt-2 text-lg font-semibold">$${p.price.toFixed(2)}</p>
+                </div>
+            `).join('')}
+        </div>
+        <button class="mt-6 text-gray-500 hover:text-gray-700 transition w-full text-center" onclick="prevStep()">← Back</button>
+    `;
+}
+
+function generateCustomBuilderHTML() {
+    return `
+        <h3 class="text-3xl font-bold text-center mb-2" style="font-family: 'Playfair Display', serif;">Build Your Box</h3>
+        <p class="text-center text-gray-500 mb-6">Select up to 4 types of greens. ($${CROP_PRICE.toFixed(2)} per 3.5oz unit)</p>
+        
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div>
+                <h4 class="font-semibold text-center mb-3">Available Greens</h4>
+                <div class="space-y-2">
+                ${CROPS.map(crop => `
+                    <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                        <span>${crop}</span>
+                        <button class="add-btn" data-crop="${crop}">+</button>
+                    </div>
+                `).join('')}
+                </div>
+            </div>
+            <div>
+                <h4 class="font-semibold text-center mb-3">Your Box</h4>
+                <div id="custom-box-items" class="bg-gray-100 p-3 rounded-lg min-h-[150px]">
+                    <p class="text-sm text-gray-400 text-center mt-12">Your items will appear here.</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="w-full btn-primary" onclick="proceedFromCustom()">Proceed</button>
+        <button class="mt-6 text-gray-500 hover:text-gray-700 transition w-full text-center" onclick="prevStep()">← Back</button>
+    `;
+}
+
+// --- Price & Summary Calculation ---
+function updateSummaryAndPrice() {
+    const summaryEl = document.getElementById('order-summary');
+    const totalEl = document.getElementById('summary-total-price');
+    let basePrice = 0;
+    let summaryHTML = '';
+
+    if (state.orderType === 'preset' && state.selectedPreset) {
+        basePrice = state.selectedPreset.price;
+        summaryHTML = `<p>${state.selectedPreset.name}</p>`;
+    } else if (state.orderType === 'custom') {
+        let totalQty = 0;
+        for (const [crop, qty] of Object.entries(state.customBox)) {
+            totalQty += qty;
+            summaryHTML += `<p>${qty} x ${crop}</p>`;
+        }
+        basePrice = totalQty * CROP_PRICE;
+    }
+    
+    let finalPrice = basePrice;
+    const freqCard = document.querySelector('#frequency-options .selected');
+    if (freqCard) {
+        const modifier = parseFloat(freqCard.dataset.priceModifier);
+        finalPrice *= modifier;
+    }
+
+    state.totalPrice = finalPrice;
+    summaryEl.innerHTML = summaryHTML || '<p>No items selected.</p>';
+    totalEl.textContent = `$${finalPrice.toFixed(2)}`;
+}
+
+// --- Form & Messages ---
+function handleFormSubmit(event) {
+    event.preventDefault();
+    if (!state.deliveryFrequency) {
+        showMessageBox('Please select a delivery frequency.');
+        return;
+    }
+    closeModal();
+    // Use a timeout to make it feel like something is processing
+    setTimeout(() => {
+        alert('Thank you for your order! A confirmation will be sent to your email shortly.');
+    }, 300);
+}
+
+function showMessageBox(message) {
+    document.getElementById('message-text').textContent = message;
+    messageBox.classList.remove('hidden');
+}
+
+function closeMessageBox() {
+    messageBox.classList.add('hidden');
+}
+
+function resetState() {
+    state.currentStep = 1;
+    state.orderType = null;
+    state.selectedPreset = null;
+    state.customBox = {};
+    state.deliveryFrequency = null;
+    state.totalPrice = 0;
+    // Reset selections visually
+    modal.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+}
+
+// --- Scroll Animations ---
+function setupScrollAnimations() {
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    revealElements.forEach(el => observer.observe(el));
+}
+
+
+// --- YouTube Player Logic ---
+let player;
 function onYouTubeIframeAPIReady() {
-    player = new YT.Player('video-background-player', {
+    player = new YT.Player('video-container', {
+        videoId: 't2yjLQ76b_I', // YouTube Video ID
+        playerVars: {
+            autoplay: 1,
+            controls: 0,
+            showinfo: 0,
+            modestbranding: 1,
+            loop: 1,
+            playlist: 't2yjLQ76b_I', // Required for loop to work
+            fs: 0,
+            cc_load_policy: 0,
+            iv_load_policy: 3,
+            autohide: 1,
+            rel: 0,
+            start: 90 // Start at a good point in the video
+        },
         events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
+            onReady: (event) => {
+                event.target.mute();
+                // Custom styling for the iframe to ensure it covers the background
+                const iframe = event.target.getIframe();
+                iframe.style.position = 'absolute';
+                iframe.style.top = '50%';
+                iframe.style.left = '50%';
+                iframe.style.width = '177.77vh'; // 16/9 aspect ratio
+                iframe.style.minWidth = '100%';
+                iframe.style.height = '100%';
+                iframe.style.minHeight = '56.25vw';
+                iframe.style.transform = 'translate(-50%, -50%)';
+                iframe.style.pointerEvents = 'none';
+            }
         }
     });
 }
 
-function onPlayerReady(event) {
-    event.target.mute();
-    event.target.seekTo(150);
-    event.target.playVideo();
-}
+// --- Initializer ---
+document.addEventListener('DOMContentLoaded', () => {
+    setupEventListeners();
+    setupScrollAnimations();
+    // Set up frequency selection listeners in step 3
+    document.querySelectorAll('#frequency-options .selectable-card').forEach(card => {
+        card.addEventListener('click', () => handleFrequencySelect(
+            card.dataset.frequency, 
+            card.dataset.priceModifier,
+            card
+        ));
+    });
+});
 
-function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.PLAYING) {
-        if (checkInterval) {
-            clearInterval(checkInterval);
-        }
-        document.getElementById('video-background-player').style.opacity = '1';
-        checkInterval = setInterval(function() {
-            var currentTime = player.getCurrentTime();
-            var duration = player.getDuration();
-            var loopEnd = duration - 30;
-            if (currentTime >= loopEnd) {
-                player.seekTo(150);
-            }
-        }, 500);
-    } else {
-        clearInterval(checkInterval);
-    }
-}
-// attach both hero & footer "View Plans" buttons
-document.getElementById('view-plans-btn-hero').addEventListener('click', function(e) {
-    e.preventDefault();
-    openModal();
-});
-document.getElementById('view-plans-btn').addEventListener('click', function(e) {
-    e.preventDefault();
-    openModal();
-});
 </script>
 </body>
 </html>
