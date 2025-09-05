@@ -1,461 +1,443 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fourth Gate Microgreens</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f9f9f6;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fourth Gate Microgreens</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f9f9f6;
+}
 
-        .video-background {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translate(-50%, -50%) scale(1.2);
-            z-index: 1;
-            pointer-events: none;
-        }
+.video-background {
+position: absolute;
+top: 50%;
+left: 50%;
+min-width: 100%;
+min-height: 100%;
+width: auto;
+height: auto;
+transform: translate(-50%, -50%) scale(1.2);
+z-index: 1;
+pointer-events: none;
+}
 
-        .glass {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+.glass {
+background: rgba(255, 255, 255, 0.15);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
+.modal-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.6);
+backdrop-filter: blur(8px);
+z-index: 100;
+display: none;
+justify-content: center;
+align-items: center;
+}
 
-        .modal-content {
-            background-color: #fefefe;
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            position: relative;
-            max-width: 90%;
-            width: 500px;
-        }
+.modal-content {
+background-color: #fefefe;
+padding: 2.5rem;
+border-radius: 1.5rem;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+position: relative;
+max-width: 90%;
+width: 500px;
+}
 
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            color: #555;
-        }
-        
-        /* Custom modal for messages instead of alert() */
-        .message-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fefefe;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 101;
-            display: none;
-            text-align: center;
-        }
-    </style>
+.modal-close {
+position: absolute;
+top: 1rem;
+right: 1rem;
+font-size: 1.5rem;
+font-weight: bold;
+cursor: pointer;
+color: #555;
+}
+/* Custom modal for messages instead of alert() */
+.message-box {
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: #fefefe;
+padding: 2rem;
+border-radius: 1rem;
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+z-index: 101;
+display: none;
+text-align: center;
+}
+</style>
 </head>
 <body class="text-stone-900">
 
-    <!-- Navigation -->
-    <header class="absolute w-full z-50 px-6 py-5 flex justify-between items-center">
-        <a href="#" class="text-2xl font-bold tracking-tight text-white">Fourth Gate</a>
-        <nav class="hidden md:flex space-x-8 text-white font-medium">
-            <a href="#how-it-works" class="hover:text-lime-300 transition">How It Works</a>
-            <a href="#benefits" class="hover:text-lime-300 transition">Our Promise</a>
-            <a href="#subscription" class="hover:text-lime-300 transition">Plans</a>
-        </nav>
-        <button class="md:hidden p-2 rounded-lg bg-white/20 text-white">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                      d="M4 6h16M4 12h16m-7 6h7"/>
-            </svg>
-        </button>
-    </header>
+<!-- Navigation -->
+<header class="absolute w-full z-50 px-6 py-5 flex justify-between items-center">
+<a href="#" class="text-2xl font-bold tracking-tight text-white">Fourth Gate</a>
+<nav class="hidden md:flex space-x-8 text-white font-medium">
+<a href="#how-it-works" class="hover:text-lime-300 transition">How It Works</a>
+<a href="#benefits" class="hover:text-lime-300 transition">Our Promise</a>
+<a href="#subscription" class="hover:text-lime-300 transition">Plans</a>
+</nav>
+<button class="md:hidden p-2 rounded-lg bg-white/20 text-white">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+d="M4 6h16M4 12h16m-7 6h7"/>
+</svg>
+</button>
+</header>
 
-    <!-- Hero -->
-    <section class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
-        <!-- Background Video -->
-        <div class="absolute inset-0">
-            <iframe id="video-background-player"
-                    src="https://www.youtube.com/embed/Ep2Eyez78rM?autoplay=1&mute=1&controls=0&modestbranding=1&start=20&enablejsapi=1"
-                    frameborder="0"
-                    allow="autoplay; encrypted-media"
-                    allowfullscreen
-                    class="video-background"></iframe>
-        </div>
+<!-- Hero -->
+<section class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
+<!-- Background Video -->
+<div class="absolute inset-0">
+<iframe id="video-background-player"
+src="https://www.youtube.com/embed/Ep2Eyez78rM?autoplay=1&mute=1&controls=0&modestbranding=1&start=20&enablejsapi=1"
+frameborder="0"
+allow="autoplay; encrypted-media"
+allowfullscreen
+class="video-background"></iframe>
+</div>
 
-        <!-- Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70 z-10"></div>
+<!-- Overlay -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70 z-10"></div>
 
-        <!-- Content -->
-        <div class="relative z-20 max-w-3xl px-6">
-            <h1 class="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight">
-                Savor the Power of Green.
-            </h1>
-            <p class="mt-6 text-lg md:text-xl text-stone-200">
-                Nutrient-dense, farm-fresh microgreens delivered right to your door.
-            </p>
-            <div class="mt-8 flex justify-center">
-                <a href="#subscription" id="choose-box-btn" 
-                   class="bg-lime-500 text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-lime-400 transition transform hover:scale-105">
-                    Choose Your Box
-                </a>
-            </div>
-        </div>
-    </section>
+<!-- Content -->
+<div class="relative z-20 max-w-3xl px-6">
+<h1 class="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight">
+Savor the Power of Green.
+</h1>
+<p class="mt-6 text-lg md:text-xl text-stone-200">
+Nutrient-dense, farm-fresh microgreens delivered right to your door.
+</p>
+<div class="mt-8 flex justify-center">
+<a href="#subscription" id="choose-box-btn"
+class="bg-lime-500 text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-lime-400 transition transform hover:scale-105">
+Choose Your Box
+</a>
+</div>
+</div>
+</section>
 
-    <!-- How It Works -->
-    <section id="how-it-works" class="py-24 bg-gradient-to-b from-[#f9f9f6] to-[#f0efe9]">
-        <div class="max-w-6xl mx-auto px-6 text-center">
-            <h2 class="text-4xl font-bold text-lime-800">So Fresh, So Simple.</h2>
-            <p class="mt-4 text-stone-600">Getting started is as easy as 1-2-3.</p>
-            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-                    <div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">1</div>
-                    <h3 class="text-xl font-semibold text-lime-700">Select Your Plan</h3>
-                    <p class="mt-3 text-stone-700">Weekly or bi-weekly — tailored to your lifestyle.</p>
-                </div>
-                <div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-                    <div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">2</div>
-                    <h3 class="text-xl font-semibold text-lime-700">Receive Your Box</h3>
-                    <p class="mt-3 text-stone-700">Harvested and delivered at peak freshness.</p>
-                </div>
-                <div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-                    <div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">3</div>
-                    <h3 class="text-xl font-semibold text-lime-700">Enjoy!</h3>
-                    <p class="mt-3 text-stone-700">Add flavor, color, and nutrition to every meal.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- How It Works -->
+<section id="how-it-works" class="py-24 bg-gradient-to-b from-[#f9f9f6] to-[#f0efe9]">
+<div class="max-w-6xl mx-auto px-6 text-center">
+<h2 class="text-4xl font-bold text-lime-800">So Fresh, So Simple.</h2>
+<p class="mt-4 text-stone-600">Getting started is as easy as 1-2-3.</p>
+<div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
+<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
+<div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">1</div>
+<h3 class="text-xl font-semibold text-lime-700">Select Your Plan</h3>
+<p class="mt-3 text-stone-700">Weekly or bi-weekly — tailored to your lifestyle.</p>
+</div>
+<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
+<div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">2</div>
+<h3 class="text-xl font-semibold text-lime-700">Receive Your Box</h3>
+<p class="mt-3 text-stone-700">Harvested and delivered at peak freshness.</p>
+</div>
+<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
+<div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">3</div>
+<h3 class="text-xl font-semibold text-lime-700">Enjoy!</h3>
+<p class="mt-3 text-stone-700">Add flavor, color, and nutrition to every meal.</p>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Our Promise -->
-    <section id="benefits" class="py-24 bg-white">
-        <div class="max-w-6xl mx-auto px-6 text-center">
-            <h2 class="text-4xl font-bold text-lime-800">Our Promise to You</h2>
-            <p class="mt-4 text-stone-600">The freshest, most nutritious greens grown sustainably.</p>
-            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-                    <h3 class="text-xl font-semibold text-lime-700">🌱 Packed with Nutrients</h3>
-                    <p class="mt-3 text-stone-700">Harvested at their peak for maximum vitamins & minerals.</p>
-                </div>
-                <div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-                    <h3 class="text-xl font-semibold text-lime-700">🌍 Sustainably Grown</h3>
-                    <p class="mt-3 text-stone-700">Organic, earth-friendly methods for a healthier planet.</p>
-                </div>
-                <div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-                    <h3 class="text-xl font-semibold text-lime-700">⚡ Freshness Guaranteed</h3>
-                    <p class="mt-3 text-stone-700">Delivered within hours of harvest, guaranteed.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Our Promise -->
+<section id="benefits" class="py-24 bg-white">
+<div class="max-w-6xl mx-auto px-6 text-center">
+<h2 class="text-4xl font-bold text-lime-800">Our Promise to You</h2>
+<p class="mt-4 text-stone-600">The freshest, most nutritious greens grown sustainably.</p>
+<div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
+<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
+<h3 class="text-xl font-semibold text-lime-700">🌱 Packed with Nutrients</h3>
+<p class="mt-3 text-stone-700">Harvested at their peak for maximum vitamins & minerals.</p>
+</div>
+<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
+<h3 class="text-xl font-semibold text-lime-700">🌍 Sustainably Grown</h3>
+<p class="mt-3 text-stone-700">Organic, earth-friendly methods for a healthier planet.</p>
+</div>
+<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
+<h3 class="text-xl font-semibold text-lime-700">⚡ Freshness Guaranteed</h3>
+<p class="mt-3 text-stone-700">Delivered within hours of harvest, guaranteed.</p>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- Subscription -->
-    <section id="subscription" class="py-24 bg-gradient-to-r from-lime-600 to-lime-500 text-white text-center">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-4xl font-bold">Ready to Start Your Journey?</h2>
-            <p class="mt-4 text-lg text-lime-100">Choose your subscription plan and experience greens like never before.</p>
-            <div class="mt-10 flex justify-center">
-                <button id="view-plans-btn" class="bg-white text-lime-700 font-semibold py-3 px-10 rounded-full shadow-xl hover:bg-lime-50 transition transform hover:scale-105">
-                    View Our Plans
-                </button>
-            </div>
-        </div>
-    </section>
+<!-- Subscription -->
+<section id="subscription" class="py-24 bg-gradient-to-r from-lime-600 to-lime-500 text-white text-center">
+<div class="max-w-4xl mx-auto px-6">
+<h2 class="text-4xl font-bold">Ready to Start Your Journey?</h2>
+<p class="mt-4 text-lg text-lime-100">Choose your subscription plan and experience greens like never before.</p>
+<div class="mt-10 flex justify-center">
+<button id="view-plans-btn" class="bg-white text-lime-700 font-semibold py-3 px-10 rounded-full shadow-xl hover:bg-lime-50 transition transform hover:scale-105">
+View Our Plans
+</button>
+</div>
+</div>
+</section>
 
-    <!-- Footer -->
-    <footer class="bg-stone-900 text-stone-400 py-10 text-center">
-        <p>&copy; 2024 Fourth Gate Microgreens. All rights reserved.</p>
-    </footer>
+<!-- Footer -->
+<footer class="bg-stone-900 text-stone-400 py-10 text-center">
+<p>&copy; 2024 Fourth Gate Microgreens. All rights reserved.</p>
+</footer>
 
-    <!-- Subscription Modal -->
-    <div id="subscription-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-            
-            <!-- Step 1: Build Your Box -->
-            <div id="step-1" class="step-content">
-                <h3 class="text-2xl font-bold text-center mb-6">Build Your Box</h3>
-                
-                <!-- Crop 1 Selection -->
-                <div class="mb-6">
-                    <p class="font-semibold text-lg mb-2">Crop 1</p>
-                    <div class="flex gap-4">
-                        <select id="crop1-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-                            <option value="">Select Crop</option>
-                            <option value="Broccoli">Broccoli</option>
-                            <option value="Kale">Kale</option>
-                            <option value="Basic Salad Mix">Basic Salad Mix</option>
-                            <option value="Radish">Radish</option>
-                            <option value="Sunflower">Sunflower</option>
-                            <option value="Pea">Pea</option>
-                        </select>
-                        <select id="crop1-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-                            <option value="3.5">3.5 oz</option>
-                        </select>
-                        <select id="crop1-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-                </div>
+<!-- Subscription Modal -->
+<div id="subscription-modal" class="modal-overlay">
+<div class="modal-content">
+<span class="modal-close" onclick="closeModal()">&times;</span>
+<!-- Step 1: Build Your Box -->
+<div id="step-1" class="step-content">
+<h3 class="text-2xl font-bold text-center mb-6">Build Your Box</h3>
+<!-- Crop 1 Selection -->
+<div class="mb-6">
+<p class="font-semibold text-lg mb-2">Crop 1</p>
+<div class="flex gap-4">
+<select id="crop1-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+<option value="">Select Crop</option>
+<option value="Broccoli">Broccoli</option>
+<option value="Kale">Kale</option>
+<option value="Radish">Radish</option>
+<option value="Sunflower">Sunflower</option>
+<option value="Pea">Pea</option>
+</select>
+<select id="crop1-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+<option value="3.5">3.5 oz</option>
+</select>
+<select id="crop1-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+</div>
+</div>
 
-                <!-- Crop 2 Selection -->
-                <div class="mb-6">
-                    <p class="font-semibold text-lg mb-2">Crop 2</p>
-                    <div class="flex gap-4">
-                        <select id="crop2-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-                            <option value="">Select Crop</option>
-                            <option value="Broccoli">Broccoli</option>
-                            <option value="Kale">Kale</option>
-                            <option value="Basic Salad Mix">Basic Salad Mix</option>
-                            <option value="Radish">Radish</option>
-                            <option value="Sunflower">Sunflower</option>
-                            <option value="Pea">Pea</option>
-                        </select>
-                         <select id="crop2-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-                            <option value="3.5">3.5 oz</option>
-                        </select>
-                        <select id="crop2-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-                </div>
+<!-- Crop 2 Selection -->
+<div class="mb-6">
+<p class="font-semibold text-lg mb-2">Crop 2</p>
+<div class="flex gap-4">
+<select id="crop2-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+<option value="">Select Crop</option>
+<option value="Broccoli">Broccoli</option>
+<option value="Kale">Kale</option>
+<option value="Radish">Radish</option>
+<option value="Sunflower">Sunflower</option>
+<option value="Pea">Pea</option>
+</select>
+<select id="crop2-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+<option value="3.5">3.5 oz</option>
+</select>
+<select id="crop2-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+</div>
+</div>
 
-                <!-- Crop 3 Selection -->
-                <div class="mb-6">
-                    <p class="font-semibold text-lg mb-2">Crop 3</p>
-                    <div class="flex gap-4">
-                        <select id="crop3-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-                            <option value="">Select Crop</option>
-                            <option value="Broccoli">Broccoli</option>
-                            <option value="Kale">Kale</option>
-                            <option value="Basic Salad Mix">Basic Salad Mix</option>
-                            <option value="Radish">Radish</option>
-                            <option value="Sunflower">Sunflower</option>
-                            <option value="Pea">Pea</option>
-                        </select>
-                         <select id="crop3-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-                            <option value="3.5">3.5 oz</option>
-                        </select>
-                        <select id="crop3-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-                </div>
+<!-- Crop 3 Selection -->
+<div class="mb-6">
+<p class="font-semibold text-lg mb-2">Crop 3</p>
+<div class="flex gap-4">
+<select id="crop3-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+<option value="">Select Crop</option>
+<option value="Broccoli">Broccoli</option>
+<option value="Kale">Kale</option>
+<option value="Radish">Radish</option>
+<option value="Sunflower">Sunflower</option>
+<option value="Pea">Pea</option>
+</select>
+<select id="crop3-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+<option value="3.5">3.5 oz</option>
+</select>
+<select id="crop3-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+</div>
+</div>
 
-                <div class="mt-6 text-2xl font-bold text-center">
-                    Total: $<span id="total-price">0.00</span>
-                </div>
-                
-                <button class="w-full bg-lime-600 text-white font-semibold py-3 rounded-full mt-6 hover:bg-lime-700 transition transform hover:scale-105" onclick="nextStep()">
-                    Proceed to Details
-                </button>
-            </div>
-            
-            <!-- Step 2: Enter Details -->
-            <div id="step-2" class="step-content hidden">
-                <h3 class="text-2xl font-bold text-center mb-6">Enter Your Details</h3>
-                <form id="details-form">
-                    <input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
-                    <input type="email" placeholder="Email Address" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
-                    <input type="text" placeholder="Shipping Address" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
-                    <button type="submit" class="w-full bg-lime-600 text-white font-semibold py-3 rounded-full hover:bg-lime-700 transition transform hover:scale-105">
-                        Complete Order
-                    </button>
-                </form>
-                <button class="mt-6 text-stone-500 hover:text-stone-700 transition" onclick="prevStep()">← Back</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Message Box -->
-    <div id="message-box" class="message-box">
-      <p id="message-text" class="text-lg font-semibold text-stone-800"></p>
-      <button class="mt-4 bg-lime-600 text-white font-semibold py-2 px-6 rounded-full" onclick="closeMessageBox()">OK</button>
-    </div>
+<div class="mt-6 text-2xl font-bold text-center">
+Total: $<span id="total-price">0.00</span>
+</div>
+<button class="w-full bg-lime-600 text-white font-semibold py-3 rounded-full mt-6 hover:bg-lime-700 transition transform hover:scale-105" onclick="nextStep()">
+Proceed to Details
+</button>
+</div>
+<!-- Step 2: Enter Details -->
+<div id="step-2" class="step-content hidden">
+<h3 class="text-2xl font-bold text-center mb-6">Enter Your Details</h3>
+<form id="details-form">
+<input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
+<input type="email" placeholder="Email Address" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
+<input type="text" placeholder="Shipping Address" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
+<button type="submit" class="w-full bg-lime-600 text-white font-semibold py-3 rounded-full hover:bg-lime-700 transition transform hover:scale-105">
+Complete Order
+</button>
+</form>
+<button class="mt-6 text-stone-500 hover:text-stone-700 transition" onclick="prevStep()">← Back</button>
+</div>
+</div>
+</div>
+<!-- Message Box -->
+<div id="message-box" class="message-box">
+<p id="message-text" class="text-lg font-semibold text-stone-800"></p>
+<button class="mt-4 bg-lime-600 text-white font-semibold py-2 px-6 rounded-full" onclick="closeMessageBox()">OK</button>
+</div>
 
-    <!-- YouTube IFrame Player API -->
-    <script>
-        var player;
-        var checkInterval;
+<!-- YouTube IFrame Player API -->
+<script>
+var player;
+var checkInterval;
 
-        // This function is automatically called by the YouTube API
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('video-background-player', {
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
+// This function is automatically called by the YouTube API
+function onYouTubeIframeAPIReady() {
+player = new YT.Player('video-background-player', {
+events: {
+'onReady': onPlayerReady,
+'onStateChange': onPlayerStateChange
+}
+});
+}
 
-        function onPlayerReady(event) {
-            // Optional: Start playing when the player is ready
-            event.target.playVideo();
-        }
+function onPlayerReady(event) {
+// Optional: Start playing when the player is ready
+event.target.playVideo();
+}
 
-        function onPlayerStateChange(event) {
-            // Stop the check interval if the video is paused or ended
-            if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-                clearInterval(checkInterval);
-            }
-            
-            // Start the check interval only when the video is playing
-            if (event.data === YT.PlayerState.PLAYING) {
-                // Get video duration to calculate the loop point
-                var duration = player.getDuration();
-                var loopStart = 20; // 20 seconds
-                var loopEnd = duration - 10; // 10 seconds before the end
-                
-                checkInterval = setInterval(function() {
-                    var currentTime = player.getCurrentTime();
-                    // If the current time is past the loop end point, seek back to the start
-                    if (currentTime >= loopEnd) {
-                        player.seekTo(loopStart);
-                    }
-                }, 500); // Check every half second for better responsiveness
-            }
-        }
+function onPlayerStateChange(event) {
+// Stop the check interval if the video is paused or ended
+if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+clearInterval(checkInterval);
+}
+// Start the check interval only when the video is playing
+if (event.data === YT.PlayerState.PLAYING) {
+// Get video duration to calculate the loop point
+var duration = player.getDuration();
+var loopStart = 20; // 20 seconds
+var loopEnd = duration - 10; // 10 seconds before the end
+checkInterval = setInterval(function() {
+var currentTime = player.getCurrentTime();
+// If the current time is past the loop end point, seek back to the start
+if (currentTime >= loopEnd) {
+player.seekTo(loopStart);
+}
+}, 500); // Check every half second for better responsiveness
+}
+}
 
-        // --- Modal & Pricing Logic ---
-        const modal = document.getElementById('subscription-modal');
-        const chooseBoxBtn = document.getElementById('choose-box-btn');
-        const viewPlansBtn = document.getElementById('view-plans-btn');
-        const detailsForm = document.getElementById('details-form');
-        const messageBox = document.getElementById('message-box');
-        const messageText = document.getElementById('message-text');
-        const totalPriceEl = document.getElementById('total-price');
+// --- Modal & Pricing Logic ---
+const modal = document.getElementById('subscription-modal');
+const chooseBoxBtn = document.getElementById('choose-box-btn');
+const viewPlansBtn = document.getElementById('view-plans-btn');
+const detailsForm = document.getElementById('details-form');
+const messageBox = document.getElementById('message-box');
+const messageText = document.getElementById('message-text');
+const totalPriceEl = document.getElementById('total-price');
 
-        let currentStep = 1;
-        
-        const pricePerUnit = 7; // Assuming $7 for a 3.5oz unit
+let currentStep = 1;
+const pricePerUnit = 6; // Updated to $6 for a 3.5oz unit
 
-        function showMessageBox(message) {
-            messageText.textContent = message;
-            messageBox.style.display = 'block';
-        }
+function showMessageBox(message) {
+messageText.textContent = message;
+messageBox.style.display = 'block';
+}
 
-        function closeMessageBox() {
-            messageBox.style.display = 'none';
-        }
+function closeMessageBox() {
+messageBox.style.display = 'none';
+}
 
-        function openModal() {
-            modal.style.display = 'flex';
-            currentStep = 1;
-            showStep(currentStep);
-            updatePrice();
-        }
+function openModal() {
+modal.style.display = 'flex';
+currentStep = 1;
+showStep(currentStep);
+updatePrice();
+}
 
-        function closeModal() {
-            modal.style.display = 'none';
-        }
+function closeModal() {
+modal.style.display = 'none';
+}
 
-        function showStep(step) {
-            const steps = document.querySelectorAll('.step-content');
-            steps.forEach(s => s.classList.add('hidden'));
-            document.getElementById('step-' + step).classList.remove('hidden');
-        }
+function showStep(step) {
+const steps = document.querySelectorAll('.step-content');
+steps.forEach(s => s.classList.add('hidden'));
+document.getElementById('step-' + step).classList.remove('hidden');
+}
 
-        function nextStep() {
-            const crop1Type = document.getElementById('crop1-type').value;
-            const crop2Type = document.getElementById('crop2-type').value;
-            const crop3Type = document.getElementById('crop3-type').value;
-            
-            if (!crop1Type && !crop2Type && !crop3Type) {
-                showMessageBox('Please select at least one crop to proceed.');
-                return;
-            }
+function nextStep() {
+const crop1Type = document.getElementById('crop1-type').value;
+const crop2Type = document.getElementById('crop2-type').value;
+const crop3Type = document.getElementById('crop3-type').value;
+if (!crop1Type && !crop2Type && !crop3Type) {
+showMessageBox('Please select at least one crop to proceed.');
+return;
+}
 
-            currentStep++;
-            showStep(currentStep);
-        }
+currentStep++;
+showStep(currentStep);
+}
 
-        function prevStep() {
-            currentStep--;
-            showStep(currentStep);
-        }
+function prevStep() {
+currentStep--;
+showStep(currentStep);
+}
 
-        function updatePrice() {
-            let total = 0;
-            const crop1Qty = parseInt(document.getElementById('crop1-qty').value) || 0;
-            const crop2Qty = parseInt(document.getElementById('crop2-qty').value) || 0;
-            const crop3Qty = parseInt(document.getElementById('crop3-qty').value) || 0;
+function updatePrice() {
+let total = 0;
+const crop1Qty = parseInt(document.getElementById('crop1-qty').value) || 0;
+const crop2Qty = parseInt(document.getElementById('crop2-qty').value) || 0;
+const crop3Qty = parseInt(document.getElementById('crop3-qty').value) || 0;
 
-            const crop1Type = document.getElementById('crop1-type').value;
-            const crop2Type = document.getElementById('crop2-type').value;
-            const crop3Type = document.getElementById('crop3-type').value;
+const crop1Type = document.getElementById('crop1-type').value;
+const crop2Type = document.getElementById('crop2-type').value;
+const crop3Type = document.getElementById('crop3-type').value;
 
-            if (crop1Type) total += crop1Qty * pricePerUnit;
-            if (crop2Type) total += crop2Qty * pricePerUnit;
-            if (crop3Type) total += crop3Qty * pricePerUnit;
+if (crop1Type) total += crop1Qty * pricePerUnit;
+if (crop2Type) total += crop2Qty * pricePerUnit;
+if (crop3Type) total += crop3Qty * pricePerUnit;
 
-            totalPriceEl.textContent = total.toFixed(2);
-        }
-        
-        document.getElementById('crop1-type').addEventListener('change', updatePrice);
-        document.getElementById('crop1-qty').addEventListener('change', updatePrice);
-        document.getElementById('crop2-type').addEventListener('change', updatePrice);
-        document.getElementById('crop2-qty').addEventListener('change', updatePrice);
-        document.getElementById('crop3-type').addEventListener('change', updatePrice);
-        document.getElementById('crop3-qty').addEventListener('change', updatePrice);
+totalPriceEl.textContent = total.toFixed(2);
+}
+document.getElementById('crop1-type').addEventListener('change', updatePrice);
+document.getElementById('crop1-qty').addEventListener('change', updatePrice);
+document.getElementById('crop2-type').addEventListener('change', updatePrice);
+document.getElementById('crop2-qty').addEventListener('change', updatePrice);
+document.getElementById('crop3-type').addEventListener('change', updatePrice);
+document.getElementById('crop3-qty').addEventListener('change', updatePrice);
 
 
-        detailsForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Show a success message instead of a redirect
-            showMessageBox('Thank you for your order! We\'ll send a confirmation to your email shortly.');
-            closeModal();
-            // In a real application, you would handle form submission here
-            // and then redirect to a payment processor.
-            console.log('Form submitted.');
-        });
+detailsForm.addEventListener('submit', function(event) {
+event.preventDefault();
+// Show a success message instead of a redirect
+showMessageBox('Thank you for your order! We\'ll send a confirmation to your email shortly.');
+closeModal();
+// In a real application, you would handle form submission here
+// and then redirect to a payment processor.
+console.log('Form submitted.');
+});
 
-        chooseBoxBtn.addEventListener('click', openModal);
-        viewPlansBtn.addEventListener('click', openModal);
-        
-    </script>
-    <script src="https://www.youtube.com/iframe_api"></script>
+chooseBoxBtn.addEventListener('click', openModal);
+viewPlansBtn.addEventListener('click', openModal);
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
-
-
-
