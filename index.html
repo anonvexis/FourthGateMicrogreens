@@ -46,12 +46,16 @@ justify-content: center;
 align-items: center;
 }
 
+/* Updated modal content for the liquid glass effect */
 .modal-content {
-background-color: #fefefe;
-padding: 2.5rem;
-border-radius: 1.5rem;
-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+border-radius: 2rem;
+border: 1px solid rgba(255, 255, 255, 0.3);
+box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 position: relative;
+padding: 2.5rem;
 max-width: 90%;
 width: 500px;
 }
@@ -63,7 +67,8 @@ right: 1rem;
 font-size: 1.5rem;
 font-weight: bold;
 cursor: pointer;
-color: #555;
+color: #ffffff;
+text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 /* Custom modal for messages instead of alert() */
 .message-box {
@@ -78,6 +83,16 @@ box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 z-index: 101;
 display: none;
 text-align: center;
+}
+
+/* Glowing button effect */
+.glowing-button {
+box-shadow: 0 0 15px rgba(134, 239, 172, 0.6);
+transition: all 0.3s ease-in-out;
+}
+.glowing-button:hover {
+box-shadow: 0 0 25px rgba(134, 239, 172, 0.8), 0 0 40px rgba(134, 239, 172, 0.4);
+transform: scale(1.05);
 }
 </style>
 </head>
@@ -198,7 +213,7 @@ View Our Plans
 
 <!-- Subscription Modal -->
 <div id="subscription-modal" class="modal-overlay">
-<div class="modal-content">
+<div class="modal-content text-white">
 <span class="modal-close" onclick="closeModal()">&times;</span>
 <!-- Step 1: Build Your Box -->
 <div id="step-1" class="step-content">
@@ -207,22 +222,22 @@ View Our Plans
 <div class="mb-6">
 <p class="font-semibold text-lg mb-2">Crop 1</p>
 <div class="flex gap-4">
-<select id="crop1-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-<option value="">Select Crop</option>
-<option value="Broccoli">Broccoli</option>
-<option value="Kale">Kale</option>
-<option value="Radish">Radish</option>
-<option value="Sunflower">Sunflower</option>
-<option value="Pea">Pea</option>
+<select id="crop1-type" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+<option value="" class="bg-gray-800">Select Crop</option>
+<option value="Broccoli" class="bg-gray-800">Broccoli</option>
+<option value="Kale" class="bg-gray-800">Kale</option>
+<option value="Radish" class="bg-gray-800">Radish</option>
+<option value="Sunflower" class="bg-gray-800">Sunflower</option>
+<option value="Pea" class="bg-gray-800">Pea</option>
 </select>
-<select id="crop1-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-<option value="3.5">3.5 oz</option>
+<select id="crop1-oz" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+<option value="3.5" class="bg-gray-800">3.5 oz</option>
 </select>
-<select id="crop1-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
+<select id="crop1-qty" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+<option value="1" class="bg-gray-800">1</option>
+<option value="2" class="bg-gray-800">2</option>
+<option value="3" class="bg-gray-800">3</option>
+<option value="4" class="bg-gray-800">4</option>
 </select>
 </div>
 </div>
@@ -231,22 +246,22 @@ View Our Plans
 <div class="mb-6">
 <p class="font-semibold text-lg mb-2">Crop 2</p>
 <div class="flex gap-4">
-<select id="crop2-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-<option value="">Select Crop</option>
-<option value="Broccoli">Broccoli</option>
-<option value="Kale">Kale</option>
-<option value="Radish">Radish</option>
-<option value="Sunflower">Sunflower</option>
-<option value="Pea">Pea</option>
+<select id="crop2-type" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+<option value="" class="bg-gray-800">Select Crop</option>
+<option value="Broccoli" class="bg-gray-800">Broccoli</option>
+<option value="Kale" class="bg-gray-800">Kale</option>
+<option value="Radish" class="bg-gray-800">Radish</option>
+<option value="Sunflower" class="bg-gray-800">Sunflower</option>
+<option value="Pea" class="bg-gray-800">Pea</option>
 </select>
-<select id="crop2-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-<option value="3.5">3.5 oz</option>
+<select id="crop2-oz" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+<option value="3.5" class="bg-gray-800">3.5 oz</option>
 </select>
-<select id="crop2-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
+<select id="crop2-qty" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+<option value="1" class="bg-gray-800">1</option>
+<option value="2" class="bg-gray-800">2</option>
+<option value="3" class="bg-gray-800">3</option>
+<option value="4" class="bg-gray-800">4</option>
 </select>
 </div>
 </div>
@@ -255,45 +270,45 @@ View Our Plans
 <div class="mb-6">
 <p class="font-semibold text-lg mb-2">Crop 3</p>
 <div class="flex gap-4">
-<select id="crop3-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-<option value="">Select Crop</option>
-<option value="Broccoli">Broccoli</option>
-<option value="Kale">Kale</option>
-<option value="Radish">Radish</option>
-<option value="Sunflower">Sunflower</option>
-<option value="Pea">Pea</option>
+<select id="crop3-type" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+<option value="" class="bg-gray-800">Select Crop</option>
+<option value="Broccoli" class="bg-gray-800">Broccoli</option>
+<option value="Kale" class="bg-gray-800">Kale</option>
+<option value="Radish" class="bg-gray-800">Radish</option>
+<option value="Sunflower" class="bg-gray-800">Sunflower</option>
+<option value="Pea" class="bg-gray-800">Pea</option>
 </select>
-<select id="crop3-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-<option value="3.5">3.5 oz</option>
+<select id="crop3-oz" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+<option value="3.5" class="bg-gray-800">3.5 oz</option>
 </select>
-<select id="crop3-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
+<select id="crop3-qty" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+<option value="1" class="bg-gray-800">1</option>
+<option value="2" class="bg-gray-800">2</option>
+<option value="3" class="bg-gray-800">3</option>
+<option value="4" class="bg-gray-800">4</option>
 </select>
 </div>
 </div>
 
-<div class="mt-6 text-2xl font-bold text-center">
+<div class="mt-6 text-2xl font-bold text-center text-white">
 Total: $<span id="total-price">0.00</span>
 </div>
-<button class="w-full bg-lime-600 text-white font-semibold py-3 rounded-full mt-6 hover:bg-lime-700 transition transform hover:scale-105" onclick="nextStep()">
+<button class="w-full bg-lime-400 text-black font-semibold py-3 rounded-full mt-6 glowing-button" onclick="nextStep()">
 Proceed to Details
 </button>
 </div>
 <!-- Step 2: Enter Details -->
 <div id="step-2" class="step-content hidden">
-<h3 class="text-2xl font-bold text-center mb-6">Enter Your Details</h3>
+<h3 class="text-2xl font-bold text-center mb-6 text-white">Enter Your Details</h3>
 <form id="details-form">
-<input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
-<input type="email" placeholder="Email Address" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
-<input type="text" placeholder="Shipping Address" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
-<button type="submit" class="w-full bg-lime-600 text-white font-semibold py-3 rounded-full hover:bg-lime-700 transition transform hover:scale-105">
+<input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-white/30 bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-300" required>
+<input type="email" placeholder="Email Address" class="w-full p-3 mb-4 rounded-lg border-2 border-white/30 bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-300" required>
+<input type="text" placeholder="Shipping Address" class="w-full p-3 mb-4 rounded-lg border-2 border-white/30 bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-300" required>
+<button type="submit" class="w-full bg-lime-400 text-black font-semibold py-3 rounded-full glowing-button">
 Complete Order
 </button>
 </form>
-<button class="mt-6 text-stone-500 hover:text-stone-700 transition" onclick="prevStep()">← Back</button>
+<button class="mt-6 text-white/70 hover:text-white transition" onclick="prevStep()">← Back</button>
 </div>
 </div>
 </div>
