@@ -5,191 +5,163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fourth Gate Microgreens</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 body {
-font-family: 'Inter', sans-serif;
-background-color: #f9f9f6;
+    font-family: 'Inter', sans-serif;
+    background-color: #F8F7F3;
+    color: #2D4026;
+    overflow-x: hidden;
 }
 
 .video-background {
-position: absolute;
-top: 50%;
-left: 50%;
-min-width: 100%;
-min-height: 100%;
-width: auto;
-height: auto;
-transform: translate(-50%, -50%) scale(1.2);
-z-index: 1;
-pointer-events: none;
-}
-
-.glass {
-background: rgba(255, 255, 255, 0.15);
-backdrop-filter: blur(12px);
--webkit-backdrop-filter: blur(12px);
-border: 1px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%) scale(1.2);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .modal-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.6);
-backdrop-filter: blur(8px);
-z-index: 100;
-display: none;
-justify-content: center;
-align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
 }
 
-/* Updated modal content for the liquid glass effect */
 .modal-content {
-background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px);
-border-radius: 2rem;
-border: 1px solid rgba(255, 255, 255, 0.3);
-box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-position: relative;
-padding: 2.5rem;
-max-width: 90%;
-width: 500px;
+    background-color: #F8F7F3;
+    padding: 2.5rem;
+    border-radius: 2rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    position: relative;
+    max-width: 550px;
+    width: 90%;
+    animation: slideUp 0.4s ease-out;
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .modal-close {
-position: absolute;
-top: 1rem;
-right: 1rem;
-font-size: 1.5rem;
-font-weight: bold;
-cursor: pointer;
-color: #ffffff;
-text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-}
-/* Custom modal for messages instead of alert() */
-.message-box {
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-background-color: #fefefe;
-padding: 2rem;
-border-radius: 1rem;
-box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-z-index: 101;
-display: none;
-text-align: center;
-}
-
-/* Glowing button effect */
-.glowing-button {
-box-shadow: 0 0 15px rgba(134, 239, 172, 0.6);
-transition: all 0.3s ease-in-out;
-}
-.glowing-button:hover {
-box-shadow: 0 0 25px rgba(134, 239, 172, 0.8), 0 0 40px rgba(134, 239, 172, 0.4);
-transform: scale(1.05);
-}
-
-.crop-card {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0.75rem 1rem;
-    border-radius: 1rem;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    font-weight: 300;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    color: #2D4026;
 }
 
-.crop-card:hover {
-    background: rgba(255, 255, 255, 0.2);
+.message-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    z-index: 101;
+    display: none;
+    text-align: center;
+    animation: slideIn 0.3s ease-out;
 }
 
-.crop-card.selected {
-    background: rgba(134, 239, 172, 0.2);
-    border-color: rgba(134, 239, 172, 0.8);
-    box-shadow: 0 0 10px rgba(134, 239, 172, 0.5);
+.btn-primary {
+    background-color: #3B7235;
+    color: #F8F7F3;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 114, 53, 0.3);
 }
-.quantity-control {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 1rem;
-    padding: 0.5rem;
+
+.btn-primary:hover {
+    background-color: #2D5829;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 114, 53, 0.4);
 }
+
+.card-selection {
+    background-color: #fff;
+    border: 2px solid transparent;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.card-selection:hover {
+    border-color: #3B7235;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+.card-selection.selected {
+    border-color: #3B7235;
+    background-color: #F2F9F2;
+    box-shadow: 0 6px 15px rgba(59, 114, 53, 0.2);
+}
+
 .qty-btn {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-weight: bold;
-    font-size: 1.25rem;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
+    background-color: #E2E8D9;
+    color: #2D4026;
+    font-weight: 500;
+    border-radius: 9999px;
+    width: 2.5rem;
+    height: 2.5rem;
     transition: background-color 0.2s ease;
 }
 .qty-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background-color: #D2DBC9;
 }
 
-/* New CSS for preset cards */
-.preset-card {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 1.5rem;
-    border-radius: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
+.hero-headline {
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(120deg, #3B7235, #A3A358, #E2C36D, #3B7235);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: text-gradient 15s linear infinite;
+    font-weight: 500;
+    line-height: 1.1;
 }
-.preset-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+
+@keyframes text-gradient {
+    0% { background-position: 0% center; }
+    100% { background-position: -200% center; }
 }
-.preset-card.selected {
-    background: rgba(134, 239, 172, 0.2);
-    border-color: rgba(134, 239, 172, 0.8);
-    box-shadow: 0 0 15px rgba(134, 239, 172, 0.5);
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
-.frequency-card {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 1.5rem;
-    border-radius: 1.5rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
-.frequency-card:hover {
-    background: rgba(255, 255, 255, 0.2);
+@keyframes slideIn {
+    from { transform: translate(-50%, -40%); opacity: 0; }
+    to { transform: translate(-50%, -50%); opacity: 1; }
 }
-.frequency-card.selected {
-    background: rgba(134, 239, 172, 0.2);
-    border-color: rgba(134, 239, 172, 0.8);
-    box-shadow: 0 0 15px rgba(134, 239, 172, 0.5);
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    color: #3B7235;
 }
-.glass-dark {
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-/* New animated gradient background */
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-.animated-gradient {
-    background: linear-gradient(-45deg, #ffffff, #dcfce7, #a7f3d0);
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
-}
+
 </style>
 </head>
 <body class="text-stone-900">
@@ -204,17 +176,16 @@ transform: scale(1.05);
         allowfullscreen
         class="video-background"></iframe>
     </div>
-    <!-- The dark overlay is also moved here to be fixed -->
-    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/60"></div>
 </div>
 
 <!-- Navigation -->
-<header class="absolute w-full z-50 px-6 py-5 flex justify-between items-center">
-<a href="#" class="text-2xl font-bold tracking-tight text-white">Fourth Gate</a>
-<nav class="hidden md:flex space-x-8 text-white font-medium">
-<a href="#how-it-works" class="hover:text-lime-300 transition">How It Works</a>
-<a href="#benefits" class="hover:text-lime-300 transition">Our Promise</a>
-<a href="#subscription" class="hover:text-lime-300 transition">Plans</a>
+<header class="absolute w-full z-50 px-6 py-5 flex justify-between items-center text-white">
+<a href="#" class="text-3xl font-bold tracking-tighter font-['Playfair_Display']">Fourth Gate</a>
+<nav class="hidden md:flex space-x-8 font-medium">
+<a href="#how-it-works" class="hover:text-amber-200 transition">How It Works</a>
+<a href="#benefits" class="hover:text-amber-200 transition">Our Promise</a>
+<a href="#subscription" class="hover:text-amber-200 transition">Plans</a>
 </nav>
 <button class="md:hidden p-2 rounded-lg bg-white/20 text-white">
 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -224,79 +195,77 @@ d="M4 6h16M4 12h16m-7 6h7"/>
 </button>
 </header>
 
-<!-- Hero -->
+<!-- Hero Section -->
 <section class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
-<!-- Content -->
-<div class="relative z-20 max-w-3xl px-6">
-<h1 class="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight">
+<div class="relative z-20 max-w-4xl px-6">
+<h1 class="text-6xl md:text-8xl hero-headline">
 Savor the Power of Green.
 </h1>
-<p class="mt-6 text-lg md:text-xl text-stone-200">
+<p class="mt-6 text-xl md:text-2xl font-light text-gray-200">
 Nutrient-dense, farm-fresh microgreens delivered right to your door.
 </p>
-<div class="mt-8 flex justify-center">
-<a href="#subscription" id="choose-box-btn"
-class="bg-lime-500 text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-lime-400 transition transform hover:scale-105">
+<div class="mt-10 flex justify-center">
+<a href="#subscription" id="choose-box-btn" class="btn-primary">
 Choose Your Box
 </a>
 </div>
 </div>
 </section>
 
-<!-- How It Works -->
-<section id="how-it-works" class="py-24 relative animated-gradient overflow-hidden">
-<div class="relative z-10 max-w-6xl mx-auto px-6 text-center text-stone-900">
-<h2 class="text-4xl font-bold">So Fresh, So Simple.</h2>
-<p class="mt-4">Getting started is as easy as 1-2-3.</p>
-<div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
-<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-<div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">1</div>
-<h3 class="text-xl font-semibold">Select Your Plan</h3>
-<p class="mt-3">Weekly or bi-weekly — tailored to your lifestyle.</p>
-</div>
-<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-<div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">2</div>
-<h3 class="text-xl font-semibold">Receive Your Box</h3>
-<p class="mt-3">Harvested and delivered at peak freshness.</p>
-</div>
-<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-<div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">3</div>
-<h3 class="text-xl font-semibold">Enjoy!</h3>
-<p class="mt-3">Add flavor, color, and nutrition to every meal.</p>
-</div>
-</div>
-</div>
-</section>
-
-<!-- Our Promise -->
-<section id="benefits" class="py-24 bg-white">
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-24 bg-[#F8F7F3] text-[#2D4026]">
 <div class="max-w-6xl mx-auto px-6 text-center">
-<h2 class="text-4xl font-bold text-lime-800">Our Promise to You</h2>
-<p class="mt-4 text-stone-600">The freshest, most nutritious greens grown sustainably.</p>
+<h2 class="text-4xl section-title">So Fresh, So Simple.</h2>
+<p class="mt-4 text-lg text-gray-600">Getting started is as easy as 1-2-3.</p>
 <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
-<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-<h3 class="text-xl font-semibold text-lime-700">🌱 Packed with Nutrients</h3>
-<p class="mt-3 text-stone-700">Harvested at their peak for maximum vitamins & minerals.</p>
+<div class="p-10 rounded-3xl transition transform hover:scale-105" style="box-shadow: 0 8px 25px rgba(0,0,0,0.08);">
+<div class="w-16 h-16 mx-auto flex items-center justify-center bg-[#3B7235] text-white rounded-full mb-6 text-2xl font-bold">1</div>
+<h3 class="text-xl font-semibold">Select Your Plan</h3>
+<p class="mt-3 text-gray-700">Weekly or bi-weekly — tailored to your lifestyle.</p>
 </div>
-<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-<h3 class="text-xl font-semibold text-lime-700">🌍 Sustainably Grown</h3>
-<p class="mt-3 text-stone-700">Organic, earth-friendly methods for a healthier planet.</p>
+<div class="p-10 rounded-3xl transition transform hover:scale-105" style="box-shadow: 0 8px 25px rgba(0,0,0,0.08);">
+<div class="w-16 h-16 mx-auto flex items-center justify-center bg-[#3B7235] text-white rounded-full mb-6 text-2xl font-bold">2</div>
+<h3 class="text-xl font-semibold">Receive Your Box</h3>
+<p class="mt-3 text-gray-700">Harvested and delivered at peak freshness.</p>
 </div>
-<div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
-<h3 class="text-xl font-semibold text-lime-700">⚡ Freshness Guaranteed</h3>
-<p class="mt-3 text-stone-700">Delivered within hours of harvest, guaranteed.</p>
+<div class="p-10 rounded-3xl transition transform hover:scale-105" style="box-shadow: 0 8px 25px rgba(0,0,0,0.08);">
+<div class="w-16 h-16 mx-auto flex items-center justify-center bg-[#3B7235] text-white rounded-full mb-6 text-2xl font-bold">3</div>
+<h3 class="text-xl font-semibold">Enjoy!</h3>
+<p class="mt-3 text-gray-700">Add flavor, color, and nutrition to every meal.</p>
 </div>
 </div>
 </div>
 </section>
 
-<!-- Subscription -->
-<section id="subscription" class="py-24 bg-gradient-to-r from-lime-600 to-lime-500 text-white text-center">
+<!-- Our Promise Section -->
+<section id="benefits" class="py-24 bg-white text-[#2D4026]">
+<div class="max-w-6xl mx-auto px-6 text-center">
+<h2 class="text-4xl section-title">Our Promise to You</h2>
+<p class="mt-4 text-lg text-gray-600">The freshest, most nutritious greens grown sustainably.</p>
+<div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
+<div class="card-selection transition-none p-10 hover:scale-105" data-preset="">
+    <h3 class="text-xl font-semibold">🌱 Packed with Nutrients</h3>
+    <p class="mt-3 text-gray-700">Harvested at their peak for maximum vitamins & minerals.</p>
+</div>
+<div class="card-selection transition-none p-10 hover:scale-105" data-preset="">
+    <h3 class="text-xl font-semibold">🌍 Sustainably Grown</h3>
+    <p class="mt-3 text-gray-700">Organic, earth-friendly methods for a healthier planet.</p>
+</div>
+<div class="card-selection transition-none p-10 hover:scale-105" data-preset="">
+    <h3 class="text-xl font-semibold">⚡ Freshness Guaranteed</h3>
+    <p class="mt-3 text-gray-700">Delivered within hours of harvest, guaranteed.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Subscription CTA -->
+<section id="subscription" class="py-24 bg-[#3B7235] text-white text-center">
 <div class="max-w-4xl mx-auto px-6">
-<h2 class="text-4xl font-bold">Ready to Start Your Journey?</h2>
-<p class="mt-4 text-lg text-lime-100">Choose your subscription plan and experience greens like never before.</p>
+<h2 class="text-4xl font-bold font-['Playfair_Display']">Ready to Start Your Journey?</h2>
+<p class="mt-4 text-lg font-light text-green-100">Choose your subscription plan and experience greens like never before.</p>
 <div class="mt-10 flex justify-center">
-<button id="view-plans-btn" class="bg-white text-lime-700 font-semibold py-3 px-10 rounded-full shadow-xl hover:bg-lime-50 transition transform hover:scale-105">
+<button id="view-plans-btn" class="bg-white text-[#2D4026] font-semibold py-3 px-10 rounded-full shadow-xl hover:bg-gray-100 transition transform hover:scale-105">
 View Our Plans
 </button>
 </div>
@@ -304,22 +273,22 @@ View Our Plans
 </section>
 
 <!-- Footer -->
-<footer class="bg-stone-900 text-stone-400 py-10 text-center">
+<footer class="bg-[#2D4026] text-gray-400 py-10 text-center">
 <p>&copy; 2024 Fourth Gate Microgreens. All rights reserved.</p>
 </footer>
 
 <!-- Subscription Modal -->
 <div id="subscription-modal" class="modal-overlay">
-<div class="modal-content text-white">
+<div class="modal-content text-[#2D4026]">
 <span class="modal-close" onclick="closeModal()">&times;</span>
 <!-- Step 1: Choose Custom or Preset -->
 <div id="step-1" class="step-content">
 <h3 class="text-2xl font-bold text-center mb-6">Choose Your Box</h3>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <button class="w-full bg-lime-400 text-black font-semibold py-6 rounded-full glowing-button" onclick="goToPresets()">
+    <button class="w-full btn-primary py-6" onclick="goToPresets()">
         Choose a Preset
     </button>
-    <button class="w-full bg-white/10 text-white font-semibold py-6 rounded-full border border-white/20 hover:bg-white/20 transition-colors" onclick="goToCustom()">
+    <button class="w-full bg-gray-200 text-[#2D4026] font-semibold py-6 rounded-full hover:bg-gray-300 transition-colors" onclick="goToCustom()">
         Build Your Own
     </button>
 </div>
@@ -329,56 +298,56 @@ View Our Plans
 <div id="step-2" class="step-content hidden">
     <h3 class="text-2xl font-bold text-center mb-6">Select a Preset</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="preset-card" data-preset="Zesty Boost" data-price="18" data-crops="Broccoli, Radish">
+        <div class="card-selection" data-preset="Zesty Boost" data-price="18" data-crops="Broccoli, Radish">
             <h4 class="font-bold text-xl">The Zesty Boost</h4>
-            <p class="text-sm mt-1 text-lime-200">Broccoli & Radish</p>
+            <p class="text-sm mt-1 text-gray-500">Broccoli & Radish</p>
             <p class="mt-2 text-lg font-semibold">$18</p>
         </div>
-        <div class="preset-card" data-preset="Wellness Blend" data-price="18" data-crops="Kale, Broccoli">
+        <div class="card-selection" data-preset="Wellness Blend" data-price="18" data-crops="Kale, Broccoli">
             <h4 class="font-bold text-xl">The Wellness Blend</h4>
-            <p class="text-sm mt-1 text-lime-200">Kale & Broccoli</p>
+            <p class="text-sm mt-1 text-gray-500">Kale & Broccoli</p>
             <p class="mt-2 text-lg font-semibold">$18</p>
         </div>
-        <div class="preset-card" data-preset="Garden Party" data-price="18" data-crops="Sunflower, Pea">
+        <div class="card-selection" data-preset="Garden Party" data-price="18" data-crops="Sunflower, Pea">
             <h4 class="font-bold text-xl">The Garden Party</h4>
-            <p class="text-sm mt-1 text-lime-200">Sunflower & Pea</p>
+            <p class="text-sm mt-1 text-gray-500">Sunflower & Pea</p>
             <p class="mt-2 text-lg font-semibold">$18</p>
         </div>
     </div>
     <div class="mt-6 text-center">
-        <button class="w-full bg-lime-400 text-black font-semibold py-3 rounded-full glowing-button" onclick="goToSubscriptionFrequency()">
+        <button class="w-full btn-primary" onclick="goToSubscriptionFrequency()">
             Proceed
         </button>
     </div>
-    <button class="mt-6 text-white/70 hover:text-white transition" onclick="prevStep()">← Back</button>
+    <button class="mt-6 text-gray-500 hover:text-gray-700 transition" onclick="prevStep()">← Back</button>
 </div>
 
 <!-- Step 2a: Choose Subscription Frequency (New Step) -->
 <div id="step-2a" class="step-content hidden">
     <h3 class="text-2xl font-bold text-center mb-6">Choose Frequency</h3>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="frequency-card" data-frequency="Weekly" data-price-modifier="1">
+        <div class="card-selection" data-frequency="Weekly" data-price-modifier="1">
             <h4 class="font-bold text-xl">Weekly</h4>
-            <p class="text-sm mt-1 text-white/70">Best for daily use</p>
+            <p class="text-sm mt-1 text-gray-500">Best for daily use</p>
         </div>
-        <div class="frequency-card" data-frequency="Bi-weekly" data-price-modifier="0.95">
+        <div class="card-selection" data-frequency="Bi-weekly" data-price-modifier="0.95">
             <h4 class="font-bold text-xl">Bi-weekly</h4>
-            <p class="text-sm mt-1 text-white/70">Save 5%</p>
+            <p class="text-sm mt-1 text-gray-500">Save 5%</p>
         </div>
-        <div class="frequency-card" data-frequency="Monthly" data-price-modifier="0.9">
+        <div class="card-selection" data-frequency="Monthly" data-price-modifier="0.9">
             <h4 class="font-bold text-xl">Monthly</h4>
-            <p class="text-sm mt-1 text-white/70">Save 10%</p>
+            <p class="text-sm mt-1 text-gray-500">Save 10%</p>
         </div>
     </div>
-    <div class="mt-6 text-2xl font-bold text-center text-white">
+    <div class="mt-6 text-2xl font-bold text-center text-[#2D4026]">
         Total: $<span id="frequency-total-price">0.00</span>
     </div>
     <div class="mt-6 text-center">
-        <button class="w-full bg-lime-400 text-black font-semibold py-3 rounded-full glowing-button" onclick="goToDetailsFromFrequency()">
+        <button class="w-full btn-primary" onclick="goToDetailsFromFrequency()">
             Proceed to Details
         </button>
     </div>
-    <button class="mt-6 text-white/70 hover:text-white transition" onclick="prevStep()">← Back</button>
+    <button class="mt-6 text-gray-500 hover:text-gray-700 transition" onclick="prevStep()">← Back</button>
 </div>
 
 <!-- Step 3: Build Your Custom Box -->
@@ -388,14 +357,14 @@ View Our Plans
 <div class="mb-6">
 <p class="font-semibold text-lg mb-2">Crop 1</p>
 <div id="crop1-options" class="flex flex-wrap gap-2 justify-center">
-    <div class="crop-card" data-crop="Broccoli">Broccoli</div>
-    <div class="crop-card" data-crop="Kale">Kale</div>
-    <div class="crop-card" data-crop="Radish">Radish</div>
-    <div class="crop-card" data-crop="Sunflower">Sunflower</div>
-    <div class="crop-card" data-crop="Pea">Pea</div>
+    <div class="card-selection" data-crop="Broccoli">Broccoli</div>
+    <div class="card-selection" data-crop="Kale">Kale</div>
+    <div class="card-selection" data-crop="Radish">Radish</div>
+    <div class="card-selection" data-crop="Sunflower">Sunflower</div>
+    <div class="card-selection" data-crop="Pea">Pea</div>
 </div>
-<div class="mt-4 flex gap-4 items-center">
-    <span class="text-white/70">3.5 oz</span>
+<div class="mt-4 flex gap-4 items-center justify-center">
+    <span class="text-gray-500">3.5 oz</span>
     <div id="crop1-qty-control" class="flex items-center gap-2">
         <button class="qty-btn" data-action="decrease">-</button>
         <span id="crop1-qty-display" class="font-bold text-lg">1</span>
@@ -408,14 +377,14 @@ View Our Plans
 <div class="mb-6">
 <p class="font-semibold text-lg mb-2">Crop 2</p>
 <div id="crop2-options" class="flex flex-wrap gap-2 justify-center">
-    <div class="crop-card" data-crop="Broccoli">Broccoli</div>
-    <div class="crop-card" data-crop="Kale">Kale</div>
-    <div class="crop-card" data-crop="Radish">Radish</div>
-    <div class="crop-card" data-crop="Sunflower">Sunflower</div>
-    <div class="crop-card" data-crop="Pea">Pea</div>
+    <div class="card-selection" data-crop="Broccoli">Broccoli</div>
+    <div class="card-selection" data-crop="Kale">Kale</div>
+    <div class="card-selection" data-crop="Radish">Radish</div>
+    <div class="card-selection" data-crop="Sunflower">Sunflower</div>
+    <div class="card-selection" data-crop="Pea">Pea</div>
 </div>
-<div class="mt-4 flex gap-4 items-center">
-    <span class="text-white/70">3.5 oz</span>
+<div class="mt-4 flex gap-4 items-center justify-center">
+    <span class="text-gray-500">3.5 oz</span>
     <div id="crop2-qty-control" class="flex items-center gap-2">
         <button class="qty-btn" data-action="decrease">-</button>
         <span id="crop2-qty-display" class="font-bold text-lg">1</span>
@@ -428,14 +397,14 @@ View Our Plans
 <div class="mb-6">
 <p class="font-semibold text-lg mb-2">Crop 3</p>
 <div id="crop3-options" class="flex flex-wrap gap-2 justify-center">
-    <div class="crop-card" data-crop="Broccoli">Broccoli</div>
-    <div class="crop-card" data-crop="Kale">Kale</div>
-    <div class="crop-card" data-crop="Radish">Radish</div>
-    <div class="crop-card" data-crop="Sunflower">Sunflower</div>
-    <div class="crop-card" data-crop="Pea">Pea</div>
+    <div class="card-selection" data-crop="Broccoli">Broccoli</div>
+    <div class="card-selection" data-crop="Kale">Kale</div>
+    <div class="card-selection" data-crop="Radish">Radish</div>
+    <div class="card-selection" data-crop="Sunflower">Sunflower</div>
+    <div class="card-selection" data-crop="Pea">Pea</div>
 </div>
-<div class="mt-4 flex gap-4 items-center">
-    <span class="text-white/70">3.5 oz</span>
+<div class="mt-4 flex gap-4 items-center justify-center">
+    <span class="text-gray-500">3.5 oz</span>
     <div id="crop3-qty-control" class="flex items-center gap-2">
         <button class="qty-btn" data-action="decrease">-</button>
         <span id="crop3-qty-display" class="font-bold text-lg">1</span>
@@ -444,44 +413,40 @@ View Our Plans
 </div>
 </div>
 
-<div class="mt-6 text-2xl font-bold text-center text-white">
+<div class="mt-6 text-2xl font-bold text-center text-[#2D4026]">
 Total: $<span id="total-price">0.00</span>
 </div>
-<button class="w-full bg-lime-400 text-black font-semibold py-3 rounded-full mt-6 glowing-button" onclick="nextStep()">
+<button class="w-full btn-primary mt-6" onclick="nextStep()">
 Proceed to Details
 </button>
-<button class="mt-6 text-white/70 hover:text-white transition" onclick="prevStep()">← Back</button>
+<button class="mt-6 text-gray-500 hover:text-gray-700 transition" onclick="prevStep()">← Back</button>
 </div>
 <!-- Step 4: Enter Details -->
 <div id="step-4" class="step-content hidden">
-<h3 class="text-2xl font-bold text-center mb-6 text-white">Enter Your Details</h3>
+<h3 class="text-2xl font-bold text-center mb-6">Enter Your Details</h3>
 <form id="details-form">
-<input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-white/30 bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-300" required>
-<input type="email" placeholder="Email Address" class="w-full p-3 mb-4 rounded-lg border-2 border-white/30 bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-300" required>
-<input type="text" placeholder="Shipping Address" class="w-full p-3 mb-4 rounded-lg border-2 border-white/30 bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-300" required>
-<button type="submit" class="w-full bg-lime-400 text-black font-semibold py-3 rounded-full glowing-button">
+<input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-gray-300 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B7235]" required>
+<input type="email" placeholder="Email Address" class="w-full p-3 mb-4 rounded-lg border-2 border-gray-300 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B7235]" required>
+<input type="text" placeholder="Shipping Address" class="w-full p-3 mb-4 rounded-lg border-2 border-gray-300 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B7235]" required>
+<button type="submit" class="w-full btn-primary">
 Complete Order
 </button>
 </form>
-<button class="mt-6 text-white/70 hover:text-white transition" onclick="prevStep()">← Back</button>
+<button class="mt-6 text-gray-500 hover:text-gray-700 transition" onclick="prevStep()">← Back</button>
 </div>
 </div>
 </div>
 <!-- Message Box -->
 <div id="message-box" class="message-box">
 <p id="message-text" class="text-lg font-semibold text-stone-800"></p>
-<button class="mt-4 bg-lime-600 text-white font-semibold py-2 px-6 rounded-full" onclick="closeMessageBox()">OK</button>
+<button class="mt-4 bg-[#3B7235] text-white font-semibold py-2 px-6 rounded-full" onclick="closeMessageBox()">OK</button>
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
-
 <script>
 // --- Video Parallax Zoom Logic ---
 document.addEventListener('DOMContentLoaded', () => {
     const videoElement = document.getElementById('video-background-player');
-    
-    // We are no longer modifying the video scale, so we can remove the scroll listener.
-    // The CSS scale has been set to 1.
 });
 
 // --- Modal & Pricing Logic ---
@@ -500,23 +465,23 @@ let selectedPreset = null;
 let selectedFrequency = null;
 
 function showMessageBox(message) {
-messageText.textContent = message;
-messageBox.style.display = 'block';
+    messageText.textContent = message;
+    messageBox.style.display = 'block';
 }
 
 function closeMessageBox() {
-messageBox.style.display = 'none';
+    messageBox.style.display = 'none';
 }
 
 function openModal() {
-modal.style.display = 'flex';
-currentStep = 1;
-showStep(currentStep);
-updatePrice();
+    modal.style.display = 'flex';
+    currentStep = 1;
+    showStep(currentStep);
+    updatePrice();
 }
 
 function closeModal() {
-modal.style.display = 'none';
+    modal.style.display = 'none';
 }
 
 function showStep(step) {
@@ -551,7 +516,7 @@ function nextStep() {
 }
 
 function goToSubscriptionFrequency() {
-    const presetSelected = document.querySelector('#step-2 .preset-card.selected');
+    const presetSelected = document.querySelector('#step-2 .card-selection.selected');
     if (!presetSelected) {
         showMessageBox('Please select a preset to continue.');
         return;
@@ -567,7 +532,7 @@ function goToSubscriptionFrequency() {
 }
 
 function goToDetailsFromFrequency() {
-    const frequencySelected = document.querySelector('#step-2a .frequency-card.selected');
+    const frequencySelected = document.querySelector('#step-2a .card-selection.selected');
     if (!frequencySelected) {
         showMessageBox('Please select a subscription frequency.');
         return;
@@ -615,7 +580,7 @@ function updatePrice() {
     }
 
     // Apply frequency modifier if on the frequency selection step
-    const frequencySelected = document.querySelector('#step-2a .frequency-card.selected');
+    const frequencySelected = document.querySelector('#step-2a .card-selection.selected');
     if (frequencySelected) {
         const modifier = parseFloat(frequencySelected.dataset.priceModifier);
         total *= modifier;
@@ -632,10 +597,8 @@ const cropOptionsContainers = [
 
 cropOptionsContainers.forEach(container => {
     container.addEventListener('click', (e) => {
-        if (e.target.classList.contains('crop-card')) {
-            // Deselect all other cards in this container
-            container.querySelectorAll('.crop-card').forEach(card => card.classList.remove('selected'));
-            // Select the clicked card
+        if (e.target.classList.contains('card-selection')) {
+            container.querySelectorAll('.card-selection').forEach(card => card.classList.remove('selected'));
             e.target.classList.add('selected');
             updatePrice();
         }
@@ -645,12 +608,9 @@ cropOptionsContainers.forEach(container => {
 const presetOptions = document.querySelectorAll('.preset-card');
 presetOptions.forEach(card => {
     card.addEventListener('click', (e) => {
-        // Deselect all other preset cards
         presetOptions.forEach(c => c.classList.remove('selected'));
-        // Select the clicked card
         e.currentTarget.classList.add('selected');
         selectedPreset = e.currentTarget.dataset;
-        // Don't update the price here, as it will be updated in the next step
     });
 });
 
@@ -679,18 +639,16 @@ function handleQtyChange(e) {
     updatePrice();
 }
 
-document.getElementById('crop1-qty-control').addEventListener('click', handleQtyChange);
-document.getElementById('crop2-qty-control').addEventListener('click', handleQtyChange);
-document.getElementById('crop3-qty-control').addEventListener('click', handleQtyChange);
-
+document.getElementById('step-3').addEventListener('click', (e) => {
+    if (e.target.closest('.qty-btn')) {
+        handleQtyChange(e);
+    }
+});
 
 detailsForm.addEventListener('submit', function(event) {
 event.preventDefault();
-// Show a success message instead of a redirect
 showMessageBox('Thank you for your order! We\'ll send a confirmation to your email shortly.');
 closeModal();
-// In a real application, you would handle form submission here
-// and then redirect to a payment processor.
 console.log('Form submitted.');
 });
 
@@ -706,7 +664,6 @@ viewPlansBtn.addEventListener('click', function(e) {
 var player;
 var checkInterval;
 
-// This function is automatically called by the YouTube API
 function onYouTubeIframeAPIReady() {
 player = new YT.Player('video-background-player', {
 events: {
@@ -717,28 +674,23 @@ events: {
 }
 
 function onPlayerReady(event) {
-// The playback rate is now at the default 1.0, as requested.
 event.target.playVideo();
 }
 
 function onPlayerStateChange(event) {
-// Stop the check interval if the video is paused or ended
 if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
 clearInterval(checkInterval);
 }
-// Start the check interval only when the video is playing
 if (event.data === YT.PlayerState.PLAYING) {
-// Get video duration to calculate the loop point
 var duration = player.getDuration();
-var loopStart = 56; // New start time
-var loopEnd = duration - 10; // 10 seconds before the end
+var loopStart = 56;
+var loopEnd = duration - 10;
 checkInterval = setInterval(function() {
 var currentTime = player.getCurrentTime();
-// If the current time is past the loop end point, seek back to the start
 if (currentTime >= loopEnd) {
 player.seekTo(loopStart);
 }
-}, 500); // Check every half second for better responsiveness
+}, 500);
 }
 }
 </script>
@@ -746,3 +698,4 @@ player.seekTo(loopStart);
 
 </body>
 </html>
+
