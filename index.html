@@ -113,6 +113,66 @@ transform: scale(1.05);
     border-color: rgba(134, 239, 172, 0.8);
     box-shadow: 0 0 10px rgba(134, 239, 172, 0.5);
 }
+.quantity-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+.qty-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: bold;
+    font-size: 1.25rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+.qty-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* New CSS for preset cards */
+.preset-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+.preset-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+.preset-card.selected {
+    background: rgba(134, 239, 172, 0.2);
+    border-color: rgba(134, 239, 172, 0.8);
+    box-shadow: 0 0 15px rgba(134, 239, 172, 0.5);
+}
+.frequency-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+.frequency-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.frequency-card.selected {
+    background: rgba(134, 239, 172, 0.2);
+    border-color: rgba(134, 239, 172, 0.8);
+    box-shadow: 0 0 15px rgba(134, 239, 172, 0.5);
+}
 </style>
 </head>
 <body class="text-stone-900">
@@ -234,8 +294,77 @@ View Our Plans
 <div id="subscription-modal" class="modal-overlay">
 <div class="modal-content text-white">
 <span class="modal-close" onclick="closeModal()">&times;</span>
-<!-- Step 1: Build Your Box -->
+<!-- Step 1: Choose Custom or Preset -->
 <div id="step-1" class="step-content">
+<h3 class="text-2xl font-bold text-center mb-6">Choose Your Box</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <button class="w-full bg-lime-400 text-black font-semibold py-6 rounded-full glowing-button" onclick="goToPresets()">
+        Choose a Preset
+    </button>
+    <button class="w-full bg-white/10 text-white font-semibold py-6 rounded-full border border-white/20 hover:bg-white/20 transition-colors" onclick="goToCustom()">
+        Build Your Own
+    </button>
+</div>
+</div>
+
+<!-- Step 2: Choose Preset -->
+<div id="step-2" class="step-content hidden">
+    <h3 class="text-2xl font-bold text-center mb-6">Select a Preset</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="preset-card" data-preset="Zesty Boost" data-price="18" data-crops="Broccoli, Radish">
+            <h4 class="font-bold text-xl">The Zesty Boost</h4>
+            <p class="text-sm mt-1 text-lime-200">Broccoli & Radish</p>
+            <p class="mt-2 text-lg font-semibold">$18</p>
+        </div>
+        <div class="preset-card" data-preset="Wellness Blend" data-price="18" data-crops="Kale, Broccoli">
+            <h4 class="font-bold text-xl">The Wellness Blend</h4>
+            <p class="text-sm mt-1 text-lime-200">Kale & Broccoli</p>
+            <p class="mt-2 text-lg font-semibold">$18</p>
+        </div>
+        <div class="preset-card" data-preset="Garden Party" data-price="18" data-crops="Sunflower, Pea">
+            <h4 class="font-bold text-xl">The Garden Party</h4>
+            <p class="text-sm mt-1 text-lime-200">Sunflower & Pea</p>
+            <p class="mt-2 text-lg font-semibold">$18</p>
+        </div>
+    </div>
+    <div class="mt-6 text-center">
+        <button class="w-full bg-lime-400 text-black font-semibold py-3 rounded-full glowing-button" onclick="goToSubscriptionFrequency()">
+            Proceed
+        </button>
+    </div>
+    <button class="mt-6 text-white/70 hover:text-white transition" onclick="prevStep()">← Back</button>
+</div>
+
+<!-- Step 2a: Choose Subscription Frequency (New Step) -->
+<div id="step-2a" class="step-content hidden">
+    <h3 class="text-2xl font-bold text-center mb-6">Choose Frequency</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="frequency-card" data-frequency="Weekly" data-price-modifier="1">
+            <h4 class="font-bold text-xl">Weekly</h4>
+            <p class="text-sm mt-1 text-white/70">Best for daily use</p>
+        </div>
+        <div class="frequency-card" data-frequency="Bi-weekly" data-price-modifier="0.95">
+            <h4 class="font-bold text-xl">Bi-weekly</h4>
+            <p class="text-sm mt-1 text-white/70">Save 5%</p>
+        </div>
+        <div class="frequency-card" data-frequency="Monthly" data-price-modifier="0.9">
+            <h4 class="font-bold text-xl">Monthly</h4>
+            <p class="text-sm mt-1 text-white/70">Save 10%</p>
+        </div>
+    </div>
+    <div class="mt-6 text-2xl font-bold text-center text-white">
+        Total: $<span id="frequency-total-price">0.00</span>
+    </div>
+    <div class="mt-6 text-center">
+        <button class="w-full bg-lime-400 text-black font-semibold py-3 rounded-full glowing-button" onclick="goToDetailsFromFrequency()">
+            Proceed to Details
+        </button>
+    </div>
+    <button class="mt-6 text-white/70 hover:text-white transition" onclick="prevStep()">← Back</button>
+</div>
+
+<!-- Step 3: Build Your Custom Box -->
+<div id="step-3" class="step-content hidden">
 <h3 class="text-2xl font-bold text-center mb-6">Build Your Box</h3>
 <!-- Crop 1 Selection -->
 <div class="mb-6">
@@ -247,16 +376,13 @@ View Our Plans
     <div class="crop-card" data-crop="Sunflower">Sunflower</div>
     <div class="crop-card" data-crop="Pea">Pea</div>
 </div>
-<div class="mt-4 flex gap-4">
-    <select id="crop1-oz" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-        <option value="3.5" class="bg-gray-800">3.5 oz</option>
-    </select>
-    <select id="crop1-qty" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-        <option value="1" class="bg-gray-800">1</option>
-        <option value="2" class="bg-gray-800">2</option>
-        <option value="3" class="bg-gray-800">3</option>
-        <option value="4" class="bg-gray-800">4</option>
-    </select>
+<div class="mt-4 flex gap-4 items-center">
+    <span class="text-white/70">3.5 oz</span>
+    <div id="crop1-qty-control" class="flex items-center gap-2">
+        <button class="qty-btn" data-action="decrease">-</button>
+        <span id="crop1-qty-display" class="font-bold text-lg">1</span>
+        <button class="qty-btn" data-action="increase">+</button>
+    </div>
 </div>
 </div>
 
@@ -270,16 +396,13 @@ View Our Plans
     <div class="crop-card" data-crop="Sunflower">Sunflower</div>
     <div class="crop-card" data-crop="Pea">Pea</div>
 </div>
-<div class="mt-4 flex gap-4">
-    <select id="crop2-oz" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-        <option value="3.5" class="bg-gray-800">3.5 oz</option>
-    </select>
-    <select id="crop2-qty" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-        <option value="1" class="bg-gray-800">1</option>
-        <option value="2" class="bg-gray-800">2</option>
-        <option value="3" class="bg-gray-800">3</option>
-        <option value="4" class="bg-gray-800">4</option>
-    </select>
+<div class="mt-4 flex gap-4 items-center">
+    <span class="text-white/70">3.5 oz</span>
+    <div id="crop2-qty-control" class="flex items-center gap-2">
+        <button class="qty-btn" data-action="decrease">-</button>
+        <span id="crop2-qty-display" class="font-bold text-lg">1</span>
+        <button class="qty-btn" data-action="increase">+</button>
+    </div>
 </div>
 </div>
 
@@ -293,16 +416,13 @@ View Our Plans
     <div class="crop-card" data-crop="Sunflower">Sunflower</div>
     <div class="crop-card" data-crop="Pea">Pea</div>
 </div>
-<div class="mt-4 flex gap-4">
-    <select id="crop3-oz" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-        <option value="3.5" class="bg-gray-800">3.5 oz</option>
-    </select>
-    <select id="crop3-qty" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-        <option value="1" class="bg-gray-800">1</option>
-        <option value="2" class="bg-gray-800">2</option>
-        <option value="3" class="bg-gray-800">3</option>
-        <option value="4" class="bg-gray-800">4</option>
-    </select>
+<div class="mt-4 flex gap-4 items-center">
+    <span class="text-white/70">3.5 oz</span>
+    <div id="crop3-qty-control" class="flex items-center gap-2">
+        <button class="qty-btn" data-action="decrease">-</button>
+        <span id="crop3-qty-display" class="font-bold text-lg">1</span>
+        <button class="qty-btn" data-action="increase">+</button>
+    </div>
 </div>
 </div>
 
@@ -312,9 +432,10 @@ Total: $<span id="total-price">0.00</span>
 <button class="w-full bg-lime-400 text-black font-semibold py-3 rounded-full mt-6 glowing-button" onclick="nextStep()">
 Proceed to Details
 </button>
+<button class="mt-6 text-white/70 hover:text-white transition" onclick="prevStep()">← Back</button>
 </div>
-<!-- Step 2: Enter Details -->
-<div id="step-2" class="step-content hidden">
+<!-- Step 4: Enter Details -->
+<div id="step-4" class="step-content hidden">
 <h3 class="text-2xl font-bold text-center mb-6 text-white">Enter Your Details</h3>
 <form id="details-form">
 <input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-white/30 bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-300" required>
@@ -386,6 +507,9 @@ const totalPriceEl = document.getElementById('total-price');
 
 let currentStep = 1;
 const pricePerUnit = 6; // Updated to $6 for a 3.5oz unit
+let isCustomOrder = true;
+let selectedPreset = null;
+let selectedFrequency = null;
 
 function showMessageBox(message) {
 messageText.textContent = message;
@@ -413,40 +537,102 @@ steps.forEach(s => s.classList.add('hidden'));
 document.getElementById('step-' + step).classList.remove('hidden');
 }
 
-function nextStep() {
-const crop1Selected = document.querySelector('#crop1-options .selected');
-const crop2Selected = document.querySelector('#crop2-options .selected');
-const crop3Selected = document.querySelector('#crop3-options .selected');
-
-if (!crop1Selected && !crop2Selected && !crop3Selected) {
-showMessageBox('Please select at least one crop to proceed.');
-return;
+function goToPresets() {
+    showStep(2);
 }
 
-currentStep++;
-showStep(currentStep);
+function goToCustom() {
+    isCustomOrder = true;
+    showStep(3);
+    updatePrice();
+}
+
+function nextStep() {
+    // This function is now only used for custom box flow
+    const crop1Selected = document.querySelector('#crop1-options .selected');
+    const crop2Selected = document.querySelector('#crop2-options .selected');
+    const crop3Selected = document.querySelector('#crop3-options .selected');
+
+    if (!crop1Selected && !crop2Selected && !crop3Selected) {
+        showMessageBox('Please select at least one crop to proceed.');
+        return;
+    }
+    
+    showStep(4);
+}
+
+function goToSubscriptionFrequency() {
+    const presetSelected = document.querySelector('#step-2 .preset-card.selected');
+    if (!presetSelected) {
+        showMessageBox('Please select a preset to continue.');
+        return;
+    }
+    isCustomOrder = false;
+    selectedPreset = {
+        name: presetSelected.dataset.preset,
+        price: parseFloat(presetSelected.dataset.price),
+        crops: presetSelected.dataset.crops
+    };
+    updatePrice();
+    showStep(2.5); // Using 2.5 to represent the new step
+}
+
+function goToDetailsFromFrequency() {
+    const frequencySelected = document.querySelector('#step-2a .frequency-card.selected');
+    if (!frequencySelected) {
+        showMessageBox('Please select a subscription frequency.');
+        return;
+    }
+    selectedFrequency = frequencySelected.dataset.frequency;
+    showStep(4);
 }
 
 function prevStep() {
-currentStep--;
-showStep(currentStep);
+    if (currentStep === 4) {
+        if (isCustomOrder) {
+            showStep(3);
+        } else {
+            showStep(2);
+        }
+    } else if (currentStep === 2.5) {
+        showStep(2);
+    } else if (currentStep === 3 || currentStep === 2) {
+        showStep(1);
+    }
 }
 
+
 function updatePrice() {
-let total = 0;
-const crop1Selected = document.querySelector('#crop1-options .selected');
-const crop2Selected = document.querySelector('#crop2-options .selected');
-const crop3Selected = document.querySelector('#crop3-options .selected');
+    let total = 0;
+    let priceElementId = 'total-price';
 
-const crop1Qty = parseInt(document.getElementById('crop1-qty').value) || 0;
-const crop2Qty = parseInt(document.getElementById('crop2-qty').value) || 0;
-const crop3Qty = parseInt(document.getElementById('crop3-qty').value) || 0;
+    if (isCustomOrder) {
+        const crop1Selected = document.querySelector('#crop1-options .selected');
+        const crop2Selected = document.querySelector('#crop2-options .selected');
+        const crop3Selected = document.querySelector('#crop3-options .selected');
 
-if (crop1Selected) total += crop1Qty * pricePerUnit;
-if (crop2Selected) total += crop2Qty * pricePerUnit;
-if (crop3Selected) total += crop3Qty * pricePerUnit;
+        const crop1Qty = parseInt(document.getElementById('crop1-qty-display').textContent) || 0;
+        const crop2Qty = parseInt(document.getElementById('crop2-qty-display').textContent) || 0;
+        const crop3Qty = parseInt(document.getElementById('crop3-qty-display').textContent) || 0;
 
-totalPriceEl.textContent = total.toFixed(2);
+        if (crop1Selected) total += crop1Qty * pricePerUnit;
+        if (crop2Selected) total += crop2Qty * pricePerUnit;
+        if (crop3Selected) total += crop3Qty * pricePerUnit;
+    } else {
+        if (selectedPreset) {
+            total = selectedPreset.price;
+            priceElementId = 'frequency-total-price';
+        }
+    }
+
+    // Apply frequency modifier if on the frequency selection step
+    const frequencySelected = document.querySelector('#step-2a .frequency-card.selected');
+    if (frequencySelected) {
+        const modifier = parseFloat(frequencySelected.dataset.priceModifier);
+        total *= modifier;
+    }
+
+    document.getElementById(priceElementId).textContent = total.toFixed(2);
 }
 
 const cropOptionsContainers = [
@@ -467,9 +653,46 @@ cropOptionsContainers.forEach(container => {
     });
 });
 
-document.getElementById('crop1-qty').addEventListener('change', updatePrice);
-document.getElementById('crop2-qty').addEventListener('change', updatePrice);
-document.getElementById('crop3-qty').addEventListener('change', updatePrice);
+const presetOptions = document.querySelectorAll('.preset-card');
+presetOptions.forEach(card => {
+    card.addEventListener('click', (e) => {
+        // Deselect all other preset cards
+        presetOptions.forEach(c => c.classList.remove('selected'));
+        // Select the clicked card
+        e.currentTarget.classList.add('selected');
+        selectedPreset = e.currentTarget.dataset;
+        // Don't update the price here, as it will be updated in the next step
+    });
+});
+
+const frequencyOptions = document.querySelectorAll('.frequency-card');
+frequencyOptions.forEach(card => {
+    card.addEventListener('click', (e) => {
+        frequencyOptions.forEach(c => c.classList.remove('selected'));
+        e.currentTarget.classList.add('selected');
+        updatePrice();
+    });
+});
+
+function handleQtyChange(e) {
+    const parentContainer = e.target.closest('.mb-6');
+    const displayId = parentContainer.querySelector('[id$="-qty-display"]').id;
+    const currentQtyEl = document.getElementById(displayId);
+    let currentQty = parseInt(currentQtyEl.textContent);
+    const action = e.target.dataset.action;
+
+    if (action === 'increase') {
+        currentQty++;
+    } else if (action === 'decrease' && currentQty > 1) {
+        currentQty--;
+    }
+    currentQtyEl.textContent = currentQty;
+    updatePrice();
+}
+
+document.getElementById('crop1-qty-control').addEventListener('click', handleQtyChange);
+document.getElementById('crop2-qty-control').addEventListener('click', handleQtyChange);
+document.getElementById('crop3-qty-control').addEventListener('click', handleQtyChange);
 
 
 detailsForm.addEventListener('submit', function(event) {
@@ -495,6 +718,7 @@ viewPlansBtn.addEventListener('click', function(e) {
 
 </body>
 </html>
+
 
 
 
