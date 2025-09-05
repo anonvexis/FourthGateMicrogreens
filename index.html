@@ -482,13 +482,20 @@ closeModal();
 console.log('Form submitted.');
 });
 
-chooseBoxBtn.addEventListener('click', openModal);
-viewPlansBtn.addEventListener('click', openModal);
+chooseBoxBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    openModal();
+});
+viewPlansBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    openModal();
+});
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
+
 
 
 
