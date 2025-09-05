@@ -532,9 +532,10 @@ modal.style.display = 'none';
 }
 
 function showStep(step) {
-const steps = document.querySelectorAll('.step-content');
-steps.forEach(s => s.classList.add('hidden'));
-document.getElementById('step-' + step).classList.remove('hidden');
+    currentStep = step;
+    const steps = document.querySelectorAll('.step-content');
+    steps.forEach(s => s.classList.add('hidden'));
+    document.getElementById('step-' + step).classList.remove('hidden');
 }
 
 function goToPresets() {
@@ -574,7 +575,7 @@ function goToSubscriptionFrequency() {
         crops: presetSelected.dataset.crops
     };
     updatePrice();
-    showStep(2.5); // Using 2.5 to represent the new step
+    showStep('2a');
 }
 
 function goToDetailsFromFrequency() {
@@ -592,9 +593,9 @@ function prevStep() {
         if (isCustomOrder) {
             showStep(3);
         } else {
-            showStep(2);
+            showStep('2a');
         }
-    } else if (currentStep === 2.5) {
+    } else if (currentStep === '2a') {
         showStep(2);
     } else if (currentStep === 3 || currentStep === 2) {
         showStep(1);
@@ -718,8 +719,3 @@ viewPlansBtn.addEventListener('click', function(e) {
 
 </body>
 </html>
-
-
-
-
-
