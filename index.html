@@ -20,9 +20,10 @@ min-width: 100%;
 min-height: 100%;
 width: auto;
 height: auto;
-transform: translate(-50%, -50%) scale(1.2);
+transform: translate(-50%, -50%) scale(3);
 z-index: 1;
 pointer-events: none;
+transition: transform 0.1s linear; /* Smooths the scroll zoom effect */
 }
 
 .glass {
@@ -476,6 +477,27 @@ Complete Order
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
+// --- Video Parallax Zoom Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const videoElement = document.getElementById('video-background-player');
+    const heroSection = document.querySelector('.relative.h-screen');
+    const START_SCALE = 3.0; // Starts zoomed in 3x
+    const END_SCALE = 1.2; // Ends zoomed out to 1.2x
+    let maxScroll = 0;
+
+    const updateVideoScale = () => {
+        if (!heroSection) return;
+
+        maxScroll = heroSection.offsetHeight;
+        const scrollPercent = Math.min(window.scrollY / maxScroll, 1);
+        const newScale = START_SCALE - (scrollPercent * (START_SCALE - END_SCALE));
+        
+        videoElement.style.transform = `translate(-50%, -50%) scale(${newScale})`;
+    };
+    
+    window.addEventListener('scroll', updateVideoScale);
+});
+
 // --- Modal & Pricing Logic ---
 const modal = document.getElementById('subscription-modal');
 const chooseBoxBtn = document.getElementById('choose-box-btn');
@@ -694,8 +716,50 @@ viewPlansBtn.addEventListener('click', function(e) {
     e.preventDefault();
     openModal();
 });
+
+var player;
+var checkInterval;
+
+// This function is automatically called by the YouTube API
+function onYouTubeIframeAPIReady() {
+player = new YT.Player('video-background-player', {
+events: {
+'onReady': onPlayerReady,
+'onStateChange': onPlayerStateChange
+}
+});
+}
+
+function onPlayerReady(event) {
+// Set playback speed to 0.5x
+event.target.setPlaybackRate(0.5);
+// Start playing when the player is ready
+event.target.playVideo();
+}
+
+function onPlayerStateChange(event) {
+// Stop the check interval if the video is paused or ended
+if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+clearInterval(checkInterval);
+}
+// Start the check interval only when the video is playing
+if (event.data === YT.PlayerState.PLAYING) {
+// Get video duration to calculate the loop point
+var duration = player.getDuration();
+var loopStart = 20; // 20 seconds
+var loopEnd = duration - 10; // 10 seconds before the end
+checkInterval = setInterval(function() {
+var currentTime = player.getCurrentTime();
+// If the current time is past the loop end point, seek back to the start
+if (currentTime >= loopEnd) {
+player.seekTo(loopStart);
+}
+}, 500); // Check every half second for better responsiveness
+}
+}
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
+
