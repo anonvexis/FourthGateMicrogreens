@@ -202,63 +202,96 @@
         <div class="modal-content">
             <span class="modal-close" onclick="closeModal()">&times;</span>
             
-            <!-- Step 1: Choose Your Box -->
+            <!-- Step 1: Build Your Box -->
             <div id="step-1" class="step-content">
-                <h3 class="text-2xl font-bold text-center mb-6">Choose Your Box</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <button class="p-4 rounded-xl border border-lime-300 bg-lime-50 text-lime-800 text-center hover:bg-lime-100 transition" onclick="selectPlan('Starter Box')">
-                        <p class="font-semibold text-lg">Starter Box</p>
-                        <p class="text-sm text-lime-600 mt-1">Perfect for individuals</p>
-                        <p class="font-bold text-xl mt-2">$25</p>
-                    </button>
-                    <button class="p-4 rounded-xl border border-lime-300 bg-lime-50 text-lime-800 text-center hover:bg-lime-100 transition" onclick="selectPlan('Family Box')">
-                        <p class="font-semibold text-lg">Family Box</p>
-                        <p class="text-sm text-lime-600 mt-1">For 2-4 people</p>
-                        <p class="font-bold text-xl mt-2">$40</p>
-                    </button>
-                    <button class="p-4 rounded-xl border border-lime-300 bg-lime-50 text-lime-800 text-center hover:bg-lime-100 transition" onclick="selectPlan('Chef\'s Box')">
-                        <p class="font-semibold text-lg">Chef's Box</p>
-                        <p class="text-sm text-lime-600 mt-1">A culinary adventure</p>
-                        <p class="font-bold text-xl mt-2">$55</p>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Step 2: Choose Subscription Period -->
-            <div id="step-2" class="step-content hidden">
-                <h3 class="text-2xl font-bold text-center mb-6">Subscription Period</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <button class="p-4 rounded-xl border border-lime-300 bg-lime-50 text-lime-800 text-center hover:bg-lime-100 transition" onclick="selectPeriod('weekly')">
-                        <p class="font-semibold text-lg">Weekly</p>
-                    </button>
-                    <button class="p-4 rounded-xl border border-lime-300 bg-lime-50 text-lime-800 text-center hover:bg-lime-100 transition" onclick="selectPeriod('bi-weekly')">
-                        <p class="font-semibold text-lg">Bi-Weekly</p>
-                    </button>
-                    <button class="p-4 rounded-xl border border-lime-300 bg-lime-50 text-lime-800 text-center hover:bg-lime-100 transition" onclick="selectPeriod('monthly')">
-                        <p class="font-semibold text-lg">Monthly</p>
-                    </button>
-                </div>
-                <button class="mt-6 text-stone-500 hover:text-stone-700 transition" onclick="prevStep()">← Back</button>
-            </div>
-
-            <!-- Step 3: Plan Summary -->
-            <div id="step-3" class="step-content hidden">
-                <h3 class="text-2xl font-bold text-center mb-6">Confirm Your Plan</h3>
-                <div class="bg-gray-100 rounded-xl p-6 mb-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <p class="text-lg font-semibold" id="summary-plan"></p>
-                        <p class="text-lg font-bold" id="summary-price"></p>
+                <h3 class="text-2xl font-bold text-center mb-6">Build Your Box</h3>
+                
+                <!-- Crop 1 Selection -->
+                <div class="mb-6">
+                    <p class="font-semibold text-lg mb-2">Crop 1</p>
+                    <div class="flex gap-4">
+                        <select id="crop1-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+                            <option value="">Select Crop</option>
+                            <option value="Broccoli">Broccoli</option>
+                            <option value="Kale">Kale</option>
+                            <option value="Basic Salad Mix">Basic Salad Mix</option>
+                            <option value="Radish">Radish</option>
+                            <option value="Sunflower">Sunflower</option>
+                            <option value="Pea">Pea</option>
+                        </select>
+                        <select id="crop1-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+                            <option value="3.5">3.5 oz</option>
+                        </select>
+                        <select id="crop1-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
                     </div>
-                    <p class="text-sm text-stone-600" id="summary-period"></p>
                 </div>
-                <button class="w-full bg-lime-600 text-white font-semibold py-3 rounded-full hover:bg-lime-700 transition transform hover:scale-105" onclick="nextStep()">
+
+                <!-- Crop 2 Selection -->
+                <div class="mb-6">
+                    <p class="font-semibold text-lg mb-2">Crop 2</p>
+                    <div class="flex gap-4">
+                        <select id="crop2-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+                            <option value="">Select Crop</option>
+                            <option value="Broccoli">Broccoli</option>
+                            <option value="Kale">Kale</option>
+                            <option value="Basic Salad Mix">Basic Salad Mix</option>
+                            <option value="Radish">Radish</option>
+                            <option value="Sunflower">Sunflower</option>
+                            <option value="Pea">Pea</option>
+                        </select>
+                         <select id="crop2-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+                            <option value="3.5">3.5 oz</option>
+                        </select>
+                        <select id="crop2-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Crop 3 Selection -->
+                <div class="mb-6">
+                    <p class="font-semibold text-lg mb-2">Crop 3</p>
+                    <div class="flex gap-4">
+                        <select id="crop3-type" class="flex-1 p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+                            <option value="">Select Crop</option>
+                            <option value="Broccoli">Broccoli</option>
+                            <option value="Kale">Kale</option>
+                            <option value="Basic Salad Mix">Basic Salad Mix</option>
+                            <option value="Radish">Radish</option>
+                            <option value="Sunflower">Sunflower</option>
+                            <option value="Pea">Pea</option>
+                        </select>
+                         <select id="crop3-oz" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+                            <option value="3.5">3.5 oz</option>
+                        </select>
+                        <select id="crop3-qty" class="p-3 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-2xl font-bold text-center">
+                    Total: $<span id="total-price">0.00</span>
+                </div>
+                
+                <button class="w-full bg-lime-600 text-white font-semibold py-3 rounded-full mt-6 hover:bg-lime-700 transition transform hover:scale-105" onclick="nextStep()">
                     Proceed to Details
                 </button>
-                <button class="mt-6 text-stone-500 hover:text-stone-700 transition" onclick="prevStep()">← Back</button>
             </div>
-
-            <!-- Step 4: Enter Details -->
-            <div id="step-4" class="step-content hidden">
+            
+            <!-- Step 2: Enter Details -->
+            <div id="step-2" class="step-content hidden">
                 <h3 class="text-2xl font-bold text-center mb-6">Enter Your Details</h3>
                 <form id="details-form">
                     <input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-lime-600" required>
@@ -329,17 +362,11 @@
         const detailsForm = document.getElementById('details-form');
         const messageBox = document.getElementById('message-box');
         const messageText = document.getElementById('message-text');
+        const totalPriceEl = document.getElementById('total-price');
 
         let currentStep = 1;
-        let selectedPlan = '';
-        let selectedPrice = 0;
-        let selectedPeriod = '';
-
-        const planPrices = {
-            'Starter Box': 25,
-            'Family Box': 40,
-            'Chef\'s Box': 55
-        };
+        
+        const pricePerUnit = 7; // Assuming $7 for a 3.5oz unit
 
         function showMessageBox(message) {
             messageText.textContent = message;
@@ -354,6 +381,7 @@
             modal.style.display = 'flex';
             currentStep = 1;
             showStep(currentStep);
+            updatePrice();
         }
 
         function closeModal() {
@@ -367,6 +395,15 @@
         }
 
         function nextStep() {
+            const crop1Type = document.getElementById('crop1-type').value;
+            const crop2Type = document.getElementById('crop2-type').value;
+            const crop3Type = document.getElementById('crop3-type').value;
+            
+            if (!crop1Type && !crop2Type && !crop3Type) {
+                showMessageBox('Please select at least one crop to proceed.');
+                return;
+            }
+
             currentStep++;
             showStep(currentStep);
         }
@@ -376,22 +413,30 @@
             showStep(currentStep);
         }
 
-        function selectPlan(planName) {
-            selectedPlan = planName;
-            selectedPrice = planPrices[planName];
-            nextStep();
-        }
+        function updatePrice() {
+            let total = 0;
+            const crop1Qty = parseInt(document.getElementById('crop1-qty').value) || 0;
+            const crop2Qty = parseInt(document.getElementById('crop2-qty').value) || 0;
+            const crop3Qty = parseInt(document.getElementById('crop3-qty').value) || 0;
 
-        function selectPeriod(period) {
-            selectedPeriod = period;
-            
-            // Update the summary details for step 3
-            document.getElementById('summary-plan').textContent = selectedPlan;
-            document.getElementById('summary-price').textContent = `$${selectedPrice}`;
-            document.getElementById('summary-period').textContent = `Delivery: ${period.charAt(0).toUpperCase() + period.slice(1)}`;
-            
-            nextStep();
+            const crop1Type = document.getElementById('crop1-type').value;
+            const crop2Type = document.getElementById('crop2-type').value;
+            const crop3Type = document.getElementById('crop3-type').value;
+
+            if (crop1Type) total += crop1Qty * pricePerUnit;
+            if (crop2Type) total += crop2Qty * pricePerUnit;
+            if (crop3Type) total += crop3Qty * pricePerUnit;
+
+            totalPriceEl.textContent = total.toFixed(2);
         }
+        
+        document.getElementById('crop1-type').addEventListener('change', updatePrice);
+        document.getElementById('crop1-qty').addEventListener('change', updatePrice);
+        document.getElementById('crop2-type').addEventListener('change', updatePrice);
+        document.getElementById('crop2-qty').addEventListener('change', updatePrice);
+        document.getElementById('crop3-type').addEventListener('change', updatePrice);
+        document.getElementById('crop3-qty').addEventListener('change', updatePrice);
+
 
         detailsForm.addEventListener('submit', function(event) {
             event.preventDefault();
@@ -400,16 +445,17 @@
             closeModal();
             // In a real application, you would handle form submission here
             // and then redirect to a payment processor.
-            console.log('Form submitted. Plan:', selectedPlan, 'Period:', selectedPeriod, 'Price:', selectedPrice);
+            console.log('Form submitted.');
         });
 
         chooseBoxBtn.addEventListener('click', openModal);
         viewPlansBtn.addEventListener('click', openModal);
-
+        
     </script>
     <script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
+
 
 
