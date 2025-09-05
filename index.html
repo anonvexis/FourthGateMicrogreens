@@ -173,9 +173,40 @@ transform: scale(1.05);
     border-color: rgba(134, 239, 172, 0.8);
     box-shadow: 0 0 15px rgba(134, 239, 172, 0.5);
 }
+.glass-dark {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+/* New animated gradient background */
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.animated-gradient {
+    background: linear-gradient(-45deg, #ffffff, #dcfce7, #a7f3d0);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+}
 </style>
 </head>
 <body class="text-stone-900">
+
+<!-- Fixed Video Background Container -->
+<div class="fixed inset-0 z-0">
+    <div class="absolute inset-0">
+        <iframe id="video-background-player"
+        src="https://www.youtube.com/embed/Ep2Eyez78rM?autoplay=1&mute=1&controls=0&modestbranding=1&start=20&enablejsapi=1"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        class="video-background"></iframe>
+    </div>
+    <!-- The dark overlay is also moved here to be fixed -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70"></div>
+</div>
 
 <!-- Navigation -->
 <header class="absolute w-full z-50 px-6 py-5 flex justify-between items-center">
@@ -195,19 +226,6 @@ d="M4 6h16M4 12h16m-7 6h7"/>
 
 <!-- Hero -->
 <section class="relative h-screen flex items-center justify-center text-center text-white overflow-hidden">
-<!-- Background Video -->
-<div class="absolute inset-0">
-<iframe id="video-background-player"
-src="https://www.youtube.com/embed/Ep2Eyez78rM?autoplay=1&mute=1&controls=0&modestbranding=1&start=20&enablejsapi=1"
-frameborder="0"
-allow="autoplay; encrypted-media"
-allowfullscreen
-class="video-background"></iframe>
-</div>
-
-<!-- Overlay -->
-<div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70 z-10"></div>
-
 <!-- Content -->
 <div class="relative z-20 max-w-3xl px-6">
 <h1 class="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight">
@@ -226,25 +244,25 @@ Choose Your Box
 </section>
 
 <!-- How It Works -->
-<section id="how-it-works" class="py-24 bg-gradient-to-b from-[#f9f9f6] to-[#f0efe9]">
-<div class="max-w-6xl mx-auto px-6 text-center">
-<h2 class="text-4xl font-bold text-lime-800">So Fresh, So Simple.</h2>
-<p class="mt-4 text-stone-600">Getting started is as easy as 1-2-3.</p>
+<section id="how-it-works" class="py-24 relative animated-gradient overflow-hidden">
+<div class="relative z-10 max-w-6xl mx-auto px-6 text-center text-stone-900">
+<h2 class="text-4xl font-bold">So Fresh, So Simple.</h2>
+<p class="mt-4">Getting started is as easy as 1-2-3.</p>
 <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
 <div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
 <div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">1</div>
-<h3 class="text-xl font-semibold text-lime-700">Select Your Plan</h3>
-<p class="mt-3 text-stone-700">Weekly or bi-weekly — tailored to your lifestyle.</p>
+<h3 class="text-xl font-semibold">Select Your Plan</h3>
+<p class="mt-3">Weekly or bi-weekly — tailored to your lifestyle.</p>
 </div>
 <div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
 <div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">2</div>
-<h3 class="text-xl font-semibold text-lime-700">Receive Your Box</h3>
-<p class="mt-3 text-stone-700">Harvested and delivered at peak freshness.</p>
+<h3 class="text-xl font-semibold">Receive Your Box</h3>
+<p class="mt-3">Harvested and delivered at peak freshness.</p>
 </div>
 <div class="glass p-10 rounded-3xl shadow-lg hover:scale-105 transition">
 <div class="w-14 h-14 mx-auto flex items-center justify-center bg-lime-600 text-white rounded-full mb-5 text-xl font-bold">3</div>
-<h3 class="text-xl font-semibold text-lime-700">Enjoy!</h3>
-<p class="mt-3 text-stone-700">Add flavor, color, and nutrition to every meal.</p>
+<h3 class="text-xl font-semibold">Enjoy!</h3>
+<p class="mt-3">Add flavor, color, and nutrition to every meal.</p>
 </div>
 </div>
 </div>
@@ -455,47 +473,9 @@ Complete Order
 <button class="mt-4 bg-lime-600 text-white font-semibold py-2 px-6 rounded-full" onclick="closeMessageBox()">OK</button>
 </div>
 
-<!-- YouTube IFrame Player API -->
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
-var player;
-var checkInterval;
-
-// This function is automatically called by the YouTube API
-function onYouTubeIframeAPIReady() {
-player = new YT.Player('video-background-player', {
-events: {
-'onReady': onPlayerReady,
-'onStateChange': onPlayerStateChange
-}
-});
-}
-
-function onPlayerReady(event) {
-// Optional: Start playing when the player is ready
-event.target.playVideo();
-}
-
-function onPlayerStateChange(event) {
-// Stop the check interval if the video is paused or ended
-if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-clearInterval(checkInterval);
-}
-// Start the check interval only when the video is playing
-if (event.data === YT.PlayerState.PLAYING) {
-// Get video duration to calculate the loop point
-var duration = player.getDuration();
-var loopStart = 20; // 20 seconds
-var loopEnd = duration - 10; // 10 seconds before the end
-checkInterval = setInterval(function() {
-var currentTime = player.getCurrentTime();
-// If the current time is past the loop end point, seek back to the start
-if (currentTime >= loopEnd) {
-player.seekTo(loopStart);
-}
-}, 500); // Check every half second for better responsiveness
-}
-}
-
 // --- Modal & Pricing Logic ---
 const modal = document.getElementById('subscription-modal');
 const chooseBoxBtn = document.getElementById('choose-box-btn');
