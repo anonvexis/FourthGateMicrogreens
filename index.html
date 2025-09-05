@@ -94,6 +94,25 @@ transition: all 0.3s ease-in-out;
 box-shadow: 0 0 25px rgba(134, 239, 172, 0.8), 0 0 40px rgba(134, 239, 172, 0.4);
 transform: scale(1.05);
 }
+
+.crop-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.crop-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.crop-card.selected {
+    background: rgba(134, 239, 172, 0.2);
+    border-color: rgba(134, 239, 172, 0.8);
+    box-shadow: 0 0 10px rgba(134, 239, 172, 0.5);
+}
 </style>
 </head>
 <body class="text-stone-900">
@@ -221,72 +240,69 @@ View Our Plans
 <!-- Crop 1 Selection -->
 <div class="mb-6">
 <p class="font-semibold text-lg mb-2">Crop 1</p>
-<div class="flex gap-4">
-<select id="crop1-type" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-<option value="" class="bg-gray-800">Select Crop</option>
-<option value="Broccoli" class="bg-gray-800">Broccoli</option>
-<option value="Kale" class="bg-gray-800">Kale</option>
-<option value="Radish" class="bg-gray-800">Radish</option>
-<option value="Sunflower" class="bg-gray-800">Sunflower</option>
-<option value="Pea" class="bg-gray-800">Pea</option>
-</select>
-<select id="crop1-oz" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-<option value="3.5" class="bg-gray-800">3.5 oz</option>
-</select>
-<select id="crop1-qty" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-<option value="1" class="bg-gray-800">1</option>
-<option value="2" class="bg-gray-800">2</option>
-<option value="3" class="bg-gray-800">3</option>
-<option value="4" class="bg-gray-800">4</option>
-</select>
+<div id="crop1-options" class="flex flex-wrap gap-2 justify-center">
+    <div class="crop-card" data-crop="Broccoli">Broccoli</div>
+    <div class="crop-card" data-crop="Kale">Kale</div>
+    <div class="crop-card" data-crop="Radish">Radish</div>
+    <div class="crop-card" data-crop="Sunflower">Sunflower</div>
+    <div class="crop-card" data-crop="Pea">Pea</div>
+</div>
+<div class="mt-4 flex gap-4">
+    <select id="crop1-oz" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+        <option value="3.5" class="bg-gray-800">3.5 oz</option>
+    </select>
+    <select id="crop1-qty" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+        <option value="1" class="bg-gray-800">1</option>
+        <option value="2" class="bg-gray-800">2</option>
+        <option value="3" class="bg-gray-800">3</option>
+        <option value="4" class="bg-gray-800">4</option>
+    </select>
 </div>
 </div>
 
 <!-- Crop 2 Selection -->
 <div class="mb-6">
 <p class="font-semibold text-lg mb-2">Crop 2</p>
-<div class="flex gap-4">
-<select id="crop2-type" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-<option value="" class="bg-gray-800">Select Crop</option>
-<option value="Broccoli" class="bg-gray-800">Broccoli</option>
-<option value="Kale" class="bg-gray-800">Kale</option>
-<option value="Radish" class="bg-gray-800">Radish</option>
-<option value="Sunflower" class="bg-gray-800">Sunflower</option>
-<option value="Pea" class="bg-gray-800">Pea</option>
-</select>
-<select id="crop2-oz" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-<option value="3.5" class="bg-gray-800">3.5 oz</option>
-</select>
-<select id="crop2-qty" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-<option value="1" class="bg-gray-800">1</option>
-<option value="2" class="bg-gray-800">2</option>
-<option value="3" class="bg-gray-800">3</option>
-<option value="4" class="bg-gray-800">4</option>
-</select>
+<div id="crop2-options" class="flex flex-wrap gap-2 justify-center">
+    <div class="crop-card" data-crop="Broccoli">Broccoli</div>
+    <div class="crop-card" data-crop="Kale">Kale</div>
+    <div class="crop-card" data-crop="Radish">Radish</div>
+    <div class="crop-card" data-crop="Sunflower">Sunflower</div>
+    <div class="crop-card" data-crop="Pea">Pea</div>
+</div>
+<div class="mt-4 flex gap-4">
+    <select id="crop2-oz" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+        <option value="3.5" class="bg-gray-800">3.5 oz</option>
+    </select>
+    <select id="crop2-qty" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+        <option value="1" class="bg-gray-800">1</option>
+        <option value="2" class="bg-gray-800">2</option>
+        <option value="3" class="bg-gray-800">3</option>
+        <option value="4" class="bg-gray-800">4</option>
+    </select>
 </div>
 </div>
 
 <!-- Crop 3 Selection -->
 <div class="mb-6">
 <p class="font-semibold text-lg mb-2">Crop 3</p>
-<div class="flex gap-4">
-<select id="crop3-type" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-<option value="" class="bg-gray-800">Select Crop</option>
-<option value="Broccoli" class="bg-gray-800">Broccoli</option>
-<option value="Kale" class="bg-gray-800">Kale</option>
-<option value="Radish" class="bg-gray-800">Radish</option>
-<option value="Sunflower" class="bg-gray-800">Sunflower</option>
-<option value="Pea" class="bg-gray-800">Pea</option>
-</select>
-<select id="crop3-oz" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-<option value="3.5" class="bg-gray-800">3.5 oz</option>
-</select>
-<select id="crop3-qty" class="p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
-<option value="1" class="bg-gray-800">1</option>
-<option value="2" class="bg-gray-800">2</option>
-<option value="3" class="bg-gray-800">3</option>
-<option value="4" class="bg-gray-800">4</option>
-</select>
+<div id="crop3-options" class="flex flex-wrap gap-2 justify-center">
+    <div class="crop-card" data-crop="Broccoli">Broccoli</div>
+    <div class="crop-card" data-crop="Kale">Kale</div>
+    <div class="crop-card" data-crop="Radish">Radish</div>
+    <div class="crop-card" data-crop="Sunflower">Sunflower</div>
+    <div class="crop-card" data-crop="Pea">Pea</div>
+</div>
+<div class="mt-4 flex gap-4">
+    <select id="crop3-oz" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+        <option value="3.5" class="bg-gray-800">3.5 oz</option>
+    </select>
+    <select id="crop3-qty" class="flex-1 p-3 rounded-lg border-2 border-white/30 bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-lime-300">
+        <option value="1" class="bg-gray-800">1</option>
+        <option value="2" class="bg-gray-800">2</option>
+        <option value="3" class="bg-gray-800">3</option>
+        <option value="4" class="bg-gray-800">4</option>
+    </select>
 </div>
 </div>
 
@@ -398,10 +414,11 @@ document.getElementById('step-' + step).classList.remove('hidden');
 }
 
 function nextStep() {
-const crop1Type = document.getElementById('crop1-type').value;
-const crop2Type = document.getElementById('crop2-type').value;
-const crop3Type = document.getElementById('crop3-type').value;
-if (!crop1Type && !crop2Type && !crop3Type) {
+const crop1Selected = document.querySelector('#crop1-options .selected');
+const crop2Selected = document.querySelector('#crop2-options .selected');
+const crop3Selected = document.querySelector('#crop3-options .selected');
+
+if (!crop1Selected && !crop2Selected && !crop3Selected) {
 showMessageBox('Please select at least one crop to proceed.');
 return;
 }
@@ -417,25 +434,41 @@ showStep(currentStep);
 
 function updatePrice() {
 let total = 0;
+const crop1Selected = document.querySelector('#crop1-options .selected');
+const crop2Selected = document.querySelector('#crop2-options .selected');
+const crop3Selected = document.querySelector('#crop3-options .selected');
+
 const crop1Qty = parseInt(document.getElementById('crop1-qty').value) || 0;
 const crop2Qty = parseInt(document.getElementById('crop2-qty').value) || 0;
 const crop3Qty = parseInt(document.getElementById('crop3-qty').value) || 0;
 
-const crop1Type = document.getElementById('crop1-type').value;
-const crop2Type = document.getElementById('crop2-type').value;
-const crop3Type = document.getElementById('crop3-type').value;
-
-if (crop1Type) total += crop1Qty * pricePerUnit;
-if (crop2Type) total += crop2Qty * pricePerUnit;
-if (crop3Type) total += crop3Qty * pricePerUnit;
+if (crop1Selected) total += crop1Qty * pricePerUnit;
+if (crop2Selected) total += crop2Qty * pricePerUnit;
+if (crop3Selected) total += crop3Qty * pricePerUnit;
 
 totalPriceEl.textContent = total.toFixed(2);
 }
-document.getElementById('crop1-type').addEventListener('change', updatePrice);
+
+const cropOptionsContainers = [
+    document.getElementById('crop1-options'),
+    document.getElementById('crop2-options'),
+    document.getElementById('crop3-options'),
+];
+
+cropOptionsContainers.forEach(container => {
+    container.addEventListener('click', (e) => {
+        if (e.target.classList.contains('crop-card')) {
+            // Deselect all other cards in this container
+            container.querySelectorAll('.crop-card').forEach(card => card.classList.remove('selected'));
+            // Select the clicked card
+            e.target.classList.add('selected');
+            updatePrice();
+        }
+    });
+});
+
 document.getElementById('crop1-qty').addEventListener('change', updatePrice);
-document.getElementById('crop2-type').addEventListener('change', updatePrice);
 document.getElementById('crop2-qty').addEventListener('change', updatePrice);
-document.getElementById('crop3-type').addEventListener('change', updatePrice);
 document.getElementById('crop3-qty').addEventListener('change', updatePrice);
 
 
@@ -456,5 +489,6 @@ viewPlansBtn.addEventListener('click', openModal);
 
 </body>
 </html>
+
 
 
