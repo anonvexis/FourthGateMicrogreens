@@ -20,10 +20,9 @@ min-width: 100%;
 min-height: 100%;
 width: auto;
 height: auto;
-transform: translate(-50%, -50%) scale(3);
+transform: translate(-50%, -50%) scale(1.2);
 z-index: 1;
 pointer-events: none;
-transition: transform 0.1s linear; /* Smooths the scroll zoom effect */
 }
 
 .glass {
@@ -199,7 +198,7 @@ transform: scale(1.05);
 <div class="fixed inset-0 z-0">
     <div class="absolute inset-0">
         <iframe id="video-background-player"
-        src="https://www.youtube.com/embed/Ep2Eyez78rM?autoplay=1&mute=1&controls=0&modestbranding=1&start=20&enablejsapi=1"
+        src="https://www.youtube.com/embed/Ep2Eyez78rM?autoplay=1&mute=1&controls=0&modestbranding=1&start=56&enablejsapi=1"
         frameborder="0"
         allow="autoplay; encrypted-media"
         allowfullscreen
@@ -480,22 +479,9 @@ Complete Order
 // --- Video Parallax Zoom Logic ---
 document.addEventListener('DOMContentLoaded', () => {
     const videoElement = document.getElementById('video-background-player');
-    const heroSection = document.querySelector('.relative.h-screen');
-    const START_SCALE = 3.0; // Starts zoomed in 3x
-    const END_SCALE = 1.2; // Ends zoomed out to 1.2x
-    let maxScroll = 0;
-
-    const updateVideoScale = () => {
-        if (!heroSection) return;
-
-        maxScroll = heroSection.offsetHeight;
-        const scrollPercent = Math.min(window.scrollY / maxScroll, 1);
-        const newScale = START_SCALE - (scrollPercent * (START_SCALE - END_SCALE));
-        
-        videoElement.style.transform = `translate(-50%, -50%) scale(${newScale})`;
-    };
     
-    window.addEventListener('scroll', updateVideoScale);
+    // We are no longer modifying the video scale, so we can remove the scroll listener.
+    // The CSS scale has been set to 1.
 });
 
 // --- Modal & Pricing Logic ---
@@ -731,9 +717,7 @@ events: {
 }
 
 function onPlayerReady(event) {
-// Set playback speed to 0.5x
-event.target.setPlaybackRate(0.5);
-// Start playing when the player is ready
+// The playback rate is now at the default 1.0, as requested.
 event.target.playVideo();
 }
 
@@ -746,7 +730,7 @@ clearInterval(checkInterval);
 if (event.data === YT.PlayerState.PLAYING) {
 // Get video duration to calculate the loop point
 var duration = player.getDuration();
-var loopStart = 20; // 20 seconds
+var loopStart = 56; // New start time
 var loopEnd = duration - 10; // 10 seconds before the end
 checkInterval = setInterval(function() {
 var currentTime = player.getCurrentTime();
@@ -762,4 +746,3 @@ player.seekTo(loopStart);
 
 </body>
 </html>
-
