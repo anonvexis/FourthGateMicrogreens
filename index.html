@@ -198,7 +198,7 @@ body {
 <div class="fixed inset-0 z-0 overflow-hidden">
     <iframe id="video-background-player"
         class="absolute top-1/2 left-1/2 min-w-full min-h-full w-[1600px] h-[900px] transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        src="https://www.youtube.com/embed/t2yjLQ76b_I?autoplay=1&mute=1&loop=1&playlist=t2yjLQ76b_I&modestbranding=1&controls=0&showinfo=0&rel=0&enablejsapi=1"
+        src="https://www.youtube.com/embed/t2yjLQ76b_I?loop=1&playlist=t2yjLQ76b_I&modestbranding=1&controls=0&showinfo=0&rel=0&enablejsapi=1"
         frameborder="0"
         allow="autoplay; encrypted-media"
         allowfullscreen
@@ -493,7 +493,6 @@ View Our Plans
 // --- Video Looping Logic ---
 var player;
 var checkInterval;
-var loopStart = 90; // Video start time in seconds
 
 // This function is automatically called by the YouTube API
 function onYouTubeIframeAPIReady() {
@@ -506,8 +505,9 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
+    event.target.mute(); // Mute the video to allow autoplay
+    event.target.seekTo(90); // Start the video at 90 seconds
     event.target.playVideo();
-    event.target.seekTo(loopStart);
 }
 
 function onPlayerStateChange(event) {
@@ -518,7 +518,7 @@ function onPlayerStateChange(event) {
             var duration = player.getDuration();
             var loopEnd = duration - 30; // 30 seconds before the end
             if (currentTime >= loopEnd) {
-                player.seekTo(loopStart);
+                player.seekTo(90); // Loop back to 90 seconds
             }
         }, 500); // Check every half second
     } else {
