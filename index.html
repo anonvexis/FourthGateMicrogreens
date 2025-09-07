@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fourth Gate Microgreens</title>
+<script src="https://js.stripe.com/v3/"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -104,6 +105,12 @@ body {
     background-color: #2D5829;
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(59, 114, 53, 0.4);
+}
+.btn-primary:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    transform: translateY(0);
+    box-shadow: none;
 }
 .btn-secondary {
     background-color: #fff;
@@ -386,7 +393,7 @@ body {
             <form id="details-form">
                 <input type="text" placeholder="Full Name" class="w-full p-3 mb-4 rounded-lg border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B7235]" required>
                 <input type="email" placeholder="Email Address" class="w-full p-3 mb-4 rounded-lg border-2 border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#3B7235]" required>
-                <button type="submit" class="w-full btn-primary">Complete Order</button>
+                <button type="submit" class="w-full btn-primary">Proceed to Payment</button>
             </form>
             <button class="mt-6 text-gray-500 hover:text-gray-700 transition w-full text-center" onclick="prevStep()">← Back</button>
         </div>
@@ -710,30 +717,58 @@ function addStep2EventListeners() {
     }
 }
 
-function handleFormSubmit(event) {
+async function handleFormSubmit(event) {
     event.preventDefault();
+
     if (!state.deliveryFrequency) {
         showMessageBox('Please select a delivery frequency.');
         return;
     }
-     if (state.totalPrice <= 0) {
+    if (state.totalPrice <= 0) {
         showMessageBox('Your box is empty. Please add some items.');
         return;
     }
-    closeModal();
-    setTimeout(() => {
-        const confirmationBox = document.createElement('div');
-        confirmationBox.className = 'modal-overlay';
-        confirmationBox.style.display = 'flex';
-        confirmationBox.innerHTML = `
-            <div class="modal-content text-center !max-w-md" style="animation: slideUp 0.5s ease-out;">
-                <h3 class="text-2xl font-bold mb-4" style="font-family: 'Playfair Display', serif;">Thank You!</h3>
-                <p>Your order has been placed. A confirmation will be sent to your email shortly.</p>
-                <button class="btn-primary mt-6" onclick="this.parentElement.parentElement.remove()">Great!</button>
-            </div>
-        `;
-        document.body.appendChild(confirmationBox);
-    }, 400);
+
+    const submitButton = event.target.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Processing...';
+
+    try {
+        // This is a placeholder URL. You will need to replace this with the actual URL of your backend server.
+        const response = await fetch('/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(state),
+        });
+
+        const session = await response.json();
+
+        if (session.error) {
+            showMessageBox(session.error);
+            submitButton.disabled = false;
+            submitButton.textContent = 'Proceed to Payment';
+            return;
+        }
+
+        // IMPORTANT: Replace with your actual Stripe publishable key.
+        const stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx'); // Example Test Key
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.id
+        });
+
+        if (result.error) {
+            showMessageBox(result.error.message);
+            submitButton.disabled = false;
+            submitButton.textContent = 'Proceed to Payment';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showMessageBox('Could not connect to the payment server. Please try again later.');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Proceed to Payment';
+    }
 }
 
 function showMessageBox(message) {
