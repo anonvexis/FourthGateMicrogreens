@@ -344,12 +344,12 @@ body {
             <h3 class="text-3xl font-bold text-center mb-8" style="font-family: 'Playfair Display', serif;">Choose Your Box</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="selectable-card text-center" id="select-preset">
-                    <img src="https://images.pexels.com/photos/7659424/pexels-photo-7659424.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Preset Blends" class="w-full h-32 object-cover rounded-xl mb-4">
-                    <h4 class="font-bold text-xl mb-1">Choose a Preset</h4>
+                    <img src="https://iili.io/KoaQHt2.md.png" alt="Preset Blends" class="w-full h-32 object-cover rounded-xl mb-4">
+                    <h4 class="font-bold text-xl mb-1">Choose a Mix</h4>
                     <p class="text-sm text-gray-500">Curated for flavor and health.</p>
                 </div>
                 <div class="selectable-card text-center" id="select-custom">
-                    <img src="https://images.pexels.com/photos/7248387/pexels-photo-7248387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Build Your Own" class="w-full h-32 object-cover rounded-xl mb-4">
+                    <img src="https://iili.io/KoaPUv4.md.png" alt="Build Your Own" class="w-full h-32 object-cover rounded-xl mb-4">
                     <h4 class="font-bold text-xl mb-1">Build Your Own</h4>
                     <p class="text-sm text-gray-500">Perfectly tailored to you.</p>
                 </div>
@@ -408,49 +408,42 @@ const state = {
     currentStep: 1,
     orderType: null, // 'preset' or 'custom'
     selectedPreset: null,
-    customBox: {}, // { cropName: quantity }
+    selectedPresetSize: null, // 8 or 16
+    customBox: {}, // { cropName: quantity of 4oz units }
     deliveryFrequency: null,
     totalPrice: 0,
 };
 
-const CROP_PRICE = 6.50;
 const PRESETS = [
-    { id: 'zesty', name: 'The Zesty Boost', contents: 'Broccoli & Radish', price: 18.00, img: 'https://images.pexels.com/photos/8953578/pexels-photo-8953578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' },
-    { id: 'wellness', name: 'The Wellness Blend', contents: 'Kale & Broccoli', price: 18.00, img: 'https://images.pexels.com/photos/2551794/pexels-photo-2551794.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' },
-    { id: 'garden', name: 'The Garden Party', contents: 'Sunflower & Pea', price: 18.00, img: 'https://images.pexels.com/photos/287353/pexels-photo-287353.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }
+    { id: 'super_green', name: 'Super Green Mix', contents: 'Sunflower, Pea, Broccoli & Kale', img: 'https://iili.io/KocaUUQ.md.png' },
+    { id: 'spicy_green', name: 'Spicy Green Mix', contents: 'Purple Radish, Purple Kohlrabi & Arugula', img: 'https://iili.io/KocaUUQ.md.png' }
 ];
-const CROPS = ['Broccoli', 'Kale', 'Radish', 'Sunflower', 'Pea', 'Arugula'];
+const CROPS = ['Sunflower', 'Pea', 'Broccoli', 'Purple Radish', 'Kale', 'Purple Kohlrabi'];
 
 // --- DOM Elements ---
 const modal = document.getElementById('subscription-modal');
-const messageBox = document.getElementById('message-box');
-const allOrderButtons = document.querySelectorAll('#nav-order-btn, #hero-order-btn, #cta-order-btn, .mobile-nav-link:not([href])');
-const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+const orderButtons = [
+    document.getElementById('nav-order-btn'),
+    document.getElementById('hero-order-btn'),
+    document.getElementById('cta-order-btn')
+];
+const messageBox = document.getElementById('message-box');
+const messageOkBtn = document.getElementById('message-ok-btn');
+const detailsForm = document.getElementById('details-form');
+const selectPresetBtn = document.getElementById('select-preset');
+const selectCustomBtn = document.getElementById('select-custom');
+const modalCloseBtn = document.querySelector('.modal-close');
 
-// --- Event Listeners ---
-function setupEventListeners() {
-    allOrderButtons.forEach(btn => btn.addEventListener('click', openModal));
-    modal.querySelector('.modal-close').addEventListener('click', closeModal);
-    messageBox.querySelector('#message-ok-btn').addEventListener('click', closeMessageBox);
-    document.getElementById('details-form').addEventListener('submit', handleFormSubmit);
-    
-    // Step 1 listeners
-    document.getElementById('select-preset').addEventListener('click', () => handleOrderTypeSelect('preset'));
-    document.getElementById('select-custom').addEventListener('click', () => handleOrderTypeSelect('custom'));
 
-    // Mobile Menu
-    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('-translate-x-full'));
-    mobileNavLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full')));
-}
-
-// --- Modal & Step Logic ---
+// --- Modal & Navigation Logic ---
 function openModal() {
-    resetState();
-    renderStep(1);
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    resetStateAndUI();
+    renderStep(1);
 }
 
 function closeModal() {
@@ -458,46 +451,62 @@ function closeModal() {
     document.body.style.overflow = '';
 }
 
+function resetStateAndUI() {
+    state.currentStep = 1;
+    state.orderType = null;
+    state.selectedPreset = null;
+    state.selectedPresetSize = null;
+    state.customBox = {};
+    state.deliveryFrequency = null;
+    state.totalPrice = 0;
+    // Reset selection visuals
+    document.querySelectorAll('#frequency-options .selected').forEach(el => el.classList.remove('selected'));
+    document.getElementById('details-form').reset();
+}
+
 function renderStep(step) {
     state.currentStep = step;
     const steps = modal.querySelectorAll('.step-content');
     steps.forEach(s => s.classList.add('hidden'));
-    
+
     const targetStepEl = document.getElementById('step-' + step);
-    if(targetStepEl) {
-        // Dynamic content for step 2
-        if (step === 2) {
-            const contentEl = document.getElementById('step-2');
-            if (state.orderType === 'preset') {
-                contentEl.innerHTML = generatePresetSelectionHTML();
-                // Add event listeners for newly created preset cards
-                contentEl.querySelectorAll('.selectable-card').forEach(card => {
-                    card.addEventListener('click', (e) => {
-                        handlePresetSelect(card.dataset.presetId);
-                        // Visually select the card
-                        contentEl.querySelectorAll('.selectable-card').forEach(c => c.classList.remove('selected'));
-                        card.classList.add('selected');
-                    });
-                });
-            } else { // 'custom'
-                contentEl.innerHTML = generateCustomBuilderHTML();
-                // Add event listeners for custom builder
-                contentEl.querySelectorAll('.add-btn').forEach(btn => {
-                   btn.addEventListener('click', () => handleCustomCropChange(btn.dataset.crop, 'add'));
-                });
-            }
+    if (step === 2) {
+        const step2Content = document.getElementById('step-2');
+        // If a preset is chosen but not a size, show size selection
+        if (state.orderType === 'preset' && state.selectedPreset && !state.selectedPresetSize) {
+             step2Content.innerHTML = generatePresetSizeSelectionHTML();
+        } else {
+            // Otherwise, show the initial choice for step 2
+            state.selectedPreset = null; // Clear selections if we're going back to this view
+            state.selectedPresetSize = null;
+            step2Content.innerHTML = state.orderType === 'preset' ? generatePresetSelectionHTML() : generateCustomBuilderHTML();
         }
-        targetStepEl.classList.remove('hidden');
+
+        if(state.orderType === 'custom') {
+            updateCustomBuilderUI();
+        }
+        addStep2EventListeners();
     }
+    targetStepEl.classList.remove('hidden');
 }
 
 function prevStep() {
-    if (state.currentStep > 1) {
-        renderStep(state.currentStep - 1);
+    if (state.currentStep === 3) {
+        state.selectedPresetSize = null; // Clear size when going back from final details
+        renderStep(2);
+    } else if (state.currentStep === 2) {
+        // This could be from size selection or custom builder, reset preset either way
+        state.selectedPreset = null;
+        renderStep(1);
     }
 }
 
-// --- Order Logic ---
+function backToPresetList() {
+    state.selectedPreset = null;
+    state.selectedPresetSize = null;
+    renderStep(2);
+}
+
 function handleOrderTypeSelect(type) {
     state.orderType = type;
     renderStep(2);
@@ -505,59 +514,60 @@ function handleOrderTypeSelect(type) {
 
 function handlePresetSelect(presetId) {
     state.selectedPreset = PRESETS.find(p => p.id === presetId);
+    renderStep(2); // Re-render step 2, which will now show size selection
+}
+
+function handlePresetSizeSelect(size) {
+    state.selectedPresetSize = size;
     renderStep(3);
     updateSummaryAndPrice();
 }
 
 function handleCustomCropChange(cropName, action) {
-    if (!state.customBox[cropName]) {
-        state.customBox[cropName] = 0;
-    }
-
     if (action === 'add') {
-        state.customBox[cropName]++;
+        if (!state.customBox[cropName] && Object.keys(state.customBox).length >= 4) {
+            showMessageBox('You can select a maximum of 4 different types of greens for a custom box.');
+            return;
+        }
+        state.customBox[cropName] = (state.customBox[cropName] || 0) + 1;
     } else if (action === 'remove' && state.customBox[cropName] > 0) {
         state.customBox[cropName]--;
+        if (state.customBox[cropName] === 0) {
+            delete state.customBox[cropName];
+        }
     }
-
-    // Remove crop from object if quantity is 0
-    if (state.customBox[cropName] === 0) {
-        delete state.customBox[cropName];
-    }
-    
     updateCustomBuilderUI();
     updateSummaryAndPrice();
 }
 
 function proceedFromCustom() {
     if (Object.keys(state.customBox).length === 0) {
-        showMessageBox('Please add at least one crop to your box.');
+        showMessageBox('Please add at least one item to your box.');
         return;
     }
     renderStep(3);
     updateSummaryAndPrice();
 }
 
-function handleFrequencySelect(frequency, priceModifier, element) {
-    state.deliveryFrequency = frequency;
-    document.querySelectorAll('#frequency-options .selectable-card').forEach(c => c.classList.remove('selected'));
-    element.classList.add('selected');
-    updateSummaryAndPrice();
-}
 
-// --- UI & HTML Generation ---
 function updateCustomBuilderUI() {
     const customBoxEl = document.getElementById('custom-box-items');
+    if (!customBoxEl) return;
     customBoxEl.innerHTML = ''; // Clear current items
-    
+
+    if (Object.keys(state.customBox).length === 0) {
+         customBoxEl.innerHTML = `<p class="text-sm text-gray-400 text-center mt-12">Your items will appear here.</p>`;
+         return;
+    }
+
     for (const [crop, qty] of Object.entries(state.customBox)) {
         customBoxEl.innerHTML += `
             <div class="crop-option">
-                <span>${crop}</span>
+                <span class="text-sm">${crop} (${qty * 4}oz)</span>
                 <div class="flex items-center gap-3">
-                    <button class="qty-btn" onclick="handleCustomCropChange('${crop}', 'remove')">-</button>
+                    <button class="qty-btn !w-7 !h-7" onclick="handleCustomCropChange('${crop}', 'remove')">-</button>
                     <span class="font-bold w-4 text-center">${qty}</span>
-                    <button class="qty-btn" onclick="handleCustomCropChange('${crop}', 'add')">+</button>
+                    <button class="qty-btn !w-7 !h-7" onclick="handleCustomCropChange('${crop}', 'add')">+</button>
                 </div>
             </div>`;
     }
@@ -565,26 +575,47 @@ function updateCustomBuilderUI() {
 
 function generatePresetSelectionHTML() {
     return `
-        <h3 class="text-3xl font-bold text-center mb-8" style="font-family: 'Playfair Display', serif;">Select a Preset</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            ${PRESETS.map(p => `
-                <div class="selectable-card" data-preset-id="${p.id}">
-                    <img src="${p.img}" alt="${p.name}" class="product-image w-full h-24 object-cover rounded-lg mb-3">
-                    <h4 class="font-bold text-lg">${p.name}</h4>
-                    <p class="text-sm mt-1 text-gray-500">${p.contents}</p>
-                    <p class="mt-2 text-lg font-semibold">$${p.price.toFixed(2)}</p>
-                </div>
-            `).join('')}
+        <h3 class="text-3xl font-bold text-center mb-8" style="font-family: 'Playfair Display', serif;">Choose a Mix</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        ${PRESETS.map(p => `
+            <div class="selectable-card text-center" data-preset-id="${p.id}">
+                <img src="${p.img}" alt="${p.name}" class="w-full h-32 object-cover rounded-xl mb-4">
+                <h4 class="font-bold text-xl mb-1">${p.name}</h4>
+                <p class="text-sm text-gray-500">${p.contents}</p>
+            </div>
+        `).join('')}
         </div>
-        <button class="mt-6 text-gray-500 hover:text-gray-700 transition w-full text-center" onclick="prevStep()">← Back</button>
+        <button class="mt-8 text-gray-500 hover:text-gray-700 transition w-full text-center" onclick="prevStep()">← Back</button>
     `;
 }
+
+function generatePresetSizeSelectionHTML() {
+    if (!state.selectedPreset) return '';
+    return `
+        <h3 class="text-3xl font-bold text-center mb-2" style="font-family: 'Playfair Display', serif;">Choose a Size</h3>
+        <p class="text-center text-gray-500 mb-6">${state.selectedPreset.name}</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="selectable-card text-center" data-size="8">
+                <h4 class="font-bold text-xl">8oz Box</h4>
+                <p class="text-sm text-gray-500">Good for 1-2 people</p>
+                <p class="mt-2 text-lg font-semibold">$15.00</p>
+            </div>
+            <div class="selectable-card text-center" data-size="16">
+                <h4 class="font-bold text-xl">16oz Box</h4>
+                <p class="text-sm text-gray-500">Perfect for families</p>
+                <p class="mt-2 text-lg font-semibold">$25.00</p>
+            </div>
+        </div>
+        <button class="mt-8 text-gray-500 hover:text-gray-700 transition w-full text-center" onclick="backToPresetList()">← Back to Mix Selection</button>
+    `;
+}
+
 
 function generateCustomBuilderHTML() {
     return `
         <h3 class="text-3xl font-bold text-center mb-2" style="font-family: 'Playfair Display', serif;">Build Your Box</h3>
-        <p class="text-center text-gray-500 mb-6">Select up to 4 types of greens. ($${CROP_PRICE.toFixed(2)} per 3.5oz unit)</p>
-        
+        <p class="text-center text-gray-500 mb-6 text-sm">Each item is a 4oz unit. <br>An 8oz box (2 units) is <strong>$15</strong>, and a 16oz box (4 units) is <strong>$25</strong>.</p>
+
         <div class="grid grid-cols-2 gap-4 mb-6">
             <div>
                 <h4 class="font-semibold text-center mb-3">Available Greens</h4>
@@ -592,7 +623,7 @@ function generateCustomBuilderHTML() {
                 ${CROPS.map(crop => `
                     <div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
                         <span>${crop}</span>
-                        <button class="add-btn" data-crop="${crop}">+</button>
+                        <button class="add-btn" data-crop="${crop}"></button>
                     </div>
                 `).join('')}
                 </div>
@@ -617,93 +648,148 @@ function updateSummaryAndPrice() {
     let basePrice = 0;
     let summaryHTML = '';
 
-    if (state.orderType === 'preset' && state.selectedPreset) {
-        basePrice = state.selectedPreset.price;
-        summaryHTML = `<p>${state.selectedPreset.name}</p>`;
+    if (state.orderType === 'preset' && state.selectedPreset && state.selectedPresetSize) {
+        basePrice = state.selectedPresetSize === 8 ? 15.00 : 25.00;
+        summaryHTML = `<p><strong>${state.selectedPreset.name} (${state.selectedPresetSize}oz)</strong></p>`;
     } else if (state.orderType === 'custom') {
-        let totalQty = 0;
-        for (const [crop, qty] of Object.entries(state.customBox)) {
-            totalQty += qty;
-            summaryHTML += `<p>${qty} x ${crop}</p>`;
+        let totalUnits = Object.values(state.customBox).reduce((sum, qty) => sum + qty, 0);
+
+        if (totalUnits > 0) {
+            if (totalUnits === 1) basePrice = 8;
+            else if (totalUnits === 2) basePrice = 15;
+            else if (totalUnits === 3) basePrice = 15 + 8;
+            else if (totalUnits === 4) basePrice = 25;
+            else basePrice = 25 + (totalUnits - 4) * 7;
         }
-        basePrice = totalQty * CROP_PRICE;
+
+        let totalOz = totalUnits * 4;
+        summaryHTML = `<p><strong>Custom Box (${totalOz}oz)</strong></p>`;
+        if(totalUnits > 0) {
+            for (const [crop, qty] of Object.entries(state.customBox)) {
+                summaryHTML += `<p class="pl-2 text-sm text-gray-600">${qty} x ${crop} (4oz)</p>`;
+            }
+        }
     }
-    
+
     let finalPrice = basePrice;
     const freqCard = document.querySelector('#frequency-options .selected');
     if (freqCard) {
         const modifier = parseFloat(freqCard.dataset.priceModifier);
         finalPrice *= modifier;
+        state.deliveryFrequency = freqCard.dataset.frequency;
+    } else {
+        state.deliveryFrequency = null;
     }
 
     state.totalPrice = finalPrice;
-    summaryEl.innerHTML = summaryHTML || '<p>No items selected.</p>';
+    summaryEl.innerHTML = summaryHTML;
     totalEl.textContent = `$${finalPrice.toFixed(2)}`;
 }
 
-// --- Form & Messages ---
+// --- Event Listeners ---
+function addStep2EventListeners() {
+    const presetCards = document.querySelectorAll('#step-2 [data-preset-id]');
+    if (presetCards.length > 0) {
+        presetCards.forEach(card => {
+            card.addEventListener('click', () => handlePresetSelect(card.dataset.presetId));
+        });
+    }
+
+    const sizeCards = document.querySelectorAll('#step-2 [data-size]');
+    if (sizeCards.length > 0) {
+         sizeCards.forEach(card => {
+            card.addEventListener('click', () => handlePresetSizeSelect(parseInt(card.dataset.size)));
+        });
+    }
+
+    const addBtns = document.querySelectorAll('#step-2 .add-btn');
+    if (addBtns.length > 0) {
+        addBtns.forEach(btn => {
+            btn.addEventListener('click', () => handleCustomCropChange(btn.dataset.crop, 'add'));
+        });
+    }
+}
+
 function handleFormSubmit(event) {
     event.preventDefault();
     if (!state.deliveryFrequency) {
         showMessageBox('Please select a delivery frequency.');
         return;
     }
+     if (state.totalPrice <= 0) {
+        showMessageBox('Your box is empty. Please add some items.');
+        return;
+    }
     closeModal();
-    // Use a timeout to make it feel like something is processing
     setTimeout(() => {
-        alert('Thank you for your order! A confirmation will be sent to your email shortly.');
-    }, 300);
+        const confirmationBox = document.createElement('div');
+        confirmationBox.className = 'modal-overlay';
+        confirmationBox.style.display = 'flex';
+        confirmationBox.innerHTML = `
+            <div class="modal-content text-center !max-w-md" style="animation: slideUp 0.5s ease-out;">
+                <h3 class="text-2xl font-bold mb-4" style="font-family: 'Playfair Display', serif;">Thank You!</h3>
+                <p>Your order has been placed. A confirmation will be sent to your email shortly.</p>
+                <button class="btn-primary mt-6" onclick="this.parentElement.parentElement.remove()">Great!</button>
+            </div>
+        `;
+        document.body.appendChild(confirmationBox);
+    }, 400);
 }
 
 function showMessageBox(message) {
     document.getElementById('message-text').textContent = message;
     messageBox.classList.remove('hidden');
 }
-
 function closeMessageBox() {
     messageBox.classList.add('hidden');
 }
 
-function resetState() {
-    state.currentStep = 1;
-    state.orderType = null;
-    state.selectedPreset = null;
-    state.customBox = {};
-    state.deliveryFrequency = null;
-    state.totalPrice = 0;
-    // Reset selections visually
-    modal.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
-}
+// Initial Setup
+document.addEventListener('DOMContentLoaded', () => {
+    orderButtons.forEach(btn => btn.addEventListener('click', openModal));
+    modalCloseBtn.addEventListener('click', closeModal);
+    selectPresetBtn.addEventListener('click', () => handleOrderTypeSelect('preset'));
+    selectCustomBtn.addEventListener('click', () => handleOrderTypeSelect('custom'));
+    messageOkBtn.addEventListener('click', closeMessageBox);
+    detailsForm.addEventListener('submit', handleFormSubmit);
 
-// --- Scroll Animations ---
-function setupScrollAnimations() {
-    const revealElements = document.querySelectorAll('.reveal');
+    document.getElementById('frequency-options').addEventListener('click', e => {
+        const card = e.target.closest('.selectable-card');
+        if (card) {
+            document.querySelectorAll('#frequency-options .selectable-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            updateSummaryAndPrice();
+        }
+    });
+
+    // Mobile Menu Toggle
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('-translate-x-full');
+    });
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('-translate-x-full');
+            if(link.textContent === 'Order Now') {
+                openModal();
+            }
+        });
+    });
+
+    // Scroll reveal animation
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.1 });
-    revealElements.forEach(el => observer.observe(el));
-}
 
-// --- Initializer ---
-document.addEventListener('DOMContentLoaded', () => {
-    setupEventListeners();
-    setupScrollAnimations();
-    // Set up frequency selection listeners in step 3
-    document.querySelectorAll('#frequency-options .selectable-card').forEach(card => {
-        card.addEventListener('click', () => handleFrequencySelect(
-            card.dataset.frequency, 
-            card.dataset.priceModifier,
-            card
-        ));
-    });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 });
-
 </script>
+
 </body>
 </html>
+
+
 
